@@ -2,21 +2,31 @@ import StatBox from "@/components/StatBox";
 import StatisticsResult from "@/components/StatisticsResult";
 import { ThemedView } from "@/components/ThemedView";
 import TopFrame from "@/components/TopFrame";
-import { IUser } from "@/hooks/useApi";
+import { IUser, useApi } from "@/hooks/useApi";
 import { useLoginSession } from "@/hooks/useLoginSession";
 import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { NavigationProps } from "./_layout";
+import { EditProfileModal } from "@/components/EditProfileModal";
+import { ProfileImages } from "@/constants/ProfileImages";
+import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
 
+const imgEdit = require("@/assets/images/edit.png");
 const imgPlaceholder = require("@/assets/images/user.png");
 
 export default function StudentStatistics() {
   const [LoggedUser, setLoggedUser] = useState<IUser>();
   const { navigate } = useNavigation<NavigationProps>();
   const [ShowTopPanel, setShowTopPanel] = useState(false);
+  const [ShowEditProfile, setShowEditProfile] = useState(false);
+  const [ShowSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
+    refreshLoggedUser();
+  }, []);
+
+  const refreshLoggedUser = () => {
     useLoginSession()
       .getLoggedUser()
       .then((e) => {
@@ -26,21 +36,67 @@ export default function StudentStatistics() {
           setTimeout(() => setLoggedUser(e), 200);
         }
       });
-  }, []);
+  };
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+  const handleSoundPress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+  };
 
   return (
     <ThemedView>
+      <TopNav
+        showSettingsModal={ShowSettings}
+        options={[TopNavOptionsEnum.BACK, TopNavOptionsEnum.COIN_STATUS]}
+        coins={LoggedUser?.byte_coins}
+        onBack={() => navigate("studentDashboard")}
+        onSettingsOpen={() => setShowSettings(true)}
+        onSettingsClose={() => setShowSettings(false)}
+      />
       <View
         style={[styles.topFrameContainer, { zIndex: ShowTopPanel ? 10 : -10 }]}
       >
         <TopFrame
           dropDown={ShowTopPanel}
-          onHidden={() => setShowTopPanel(false)}
-          onShow={() => setShowTopPanel(true)}
+          bytePower={LoggedUser?.byte_power}
+          disabled
         />
       </View>
+      {ShowEditProfile ? (
+        <EditProfileModal
+          user={
+            LoggedUser ?? {
+              id: -1,
+              user_id: "",
+              name: "",
+              pass: "",
+              user_type: "student",
+            }
+          }
+          onClose={() => {
+            setShowEditProfile(false);
+          }}
+          onEdit={(EditUser) => {
+            useApi()
+              .editUser(EditUser)
+              .then((res) => {
+                if (typeof res == "string") {
+                  alert(res);
+                  refreshLoggedUser();
+                  setShowEditProfile(false);
+                }
+              });
+          }}
+          visible={true}
+        />
+      ) : null}
+
       <View style={styles.userInfoContainer}>
-        <Image style={styles.userImage} source={imgPlaceholder} />
+        <Image
+          style={styles.userImage}
+          source={ProfileImages[LoggedUser?.user_img_index ?? 0]}
+        />
         <View>
           <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
             {LoggedUser?.name}
@@ -49,6 +105,14 @@ export default function StudentStatistics() {
             {LoggedUser?.user_id}
           </Text>
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            handleSoundPress();
+            setShowEditProfile(true);
+          }}
+        >
+          <Image source={imgEdit}></Image>
+        </TouchableOpacity>
       </View>
       <StatisticsResult user={LoggedUser} />
     </ThemedView>
@@ -57,7 +121,7 @@ export default function StudentStatistics() {
 
 const styles = StyleSheet.create({
   topFrameContainer: {
-    marginBottom: -125,
+    marginBottom: -155,
   },
   userImage: {
     width: 60,
@@ -73,6 +137,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     backgroundColor: "#00000050",
     alignItems: "center",
+    gap: 15,
   },
   searchboxContainer: {
     marginLeft: 25,

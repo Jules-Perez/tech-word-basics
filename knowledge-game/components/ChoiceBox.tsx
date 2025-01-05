@@ -4,20 +4,43 @@ interface IProps {
   onTouchStartHandler?: () => void;
   selected?: boolean;
   isCorrect?: boolean;
+  reveal?: boolean;
   children?: string | JSX.Element | JSX.Element[];
 }
 export function ChoiceBox(props: IProps) {
+  let rightSound = new Audio(require("@/assets/sounds/right.wav"));
+  let wrongSound = new Audio(require("@/assets/sounds/wrong.wav"));
+
+  const handlePress = () => {
+    if (!(global as any).soundsMuted) {
+      if (props.isCorrect) {
+        rightSound.play();
+      } else {
+        wrongSound.play();
+      }
+    }
+
+    if (props?.onTouchStartHandler) {
+      props.onTouchStartHandler();
+    }
+  };
+
   return (
     <TouchableOpacity
-      onPress={props.onTouchStartHandler}
-      style={{
-        ...styles.main,
-        backgroundColor: props.selected
-          ? props.isCorrect
-            ? "#12DD00"
-            : "red"
-          : "#246209",
-      }}
+      onPress={handlePress}
+      style={[
+        {
+          ...styles.main,
+          backgroundColor: props.selected
+            ? props.isCorrect
+              ? "#12DD00"
+              : "red"
+            : "#246209",
+        },
+        props.reveal && !props.selected && props.isCorrect
+          ? { backgroundColor: "yellow" }
+          : null,
+      ]}
     >
       {props.selected ? (
         props.isCorrect ? (

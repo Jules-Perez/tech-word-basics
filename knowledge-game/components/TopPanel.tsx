@@ -1,16 +1,20 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { ThemedView } from "./ThemedView";
+import { ProfileImages } from "@/constants/ProfileImages";
 
 interface IProp {
   timeSeconds?: number;
   energy: number;
+  imgIndex?: number;
 }
 
 export function TopPanel(props: IProp) {
   function pad(n: number) {
+    if (n < 0) return n;
     if (n < 10) return "000" + n;
     if (n < 100) return "00" + n;
     if (n < 1000) return "0" + n;
+    return n;
   }
 
   const renderTimer = (seconds: number = 0) => {
@@ -49,7 +53,11 @@ export function TopPanel(props: IProp) {
       <View style={styles.userImageContainer}>
         <Image
           style={styles.userImage}
-          source={require(`@/assets/images/sampleUserPic.png`)}
+          source={
+            props.imgIndex
+              ? ProfileImages[props.imgIndex]
+              : require(`@/assets/images/sampleUserPic.png`)
+          }
         ></Image>
       </View>
     </View>
@@ -106,8 +114,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   userImage: {
-    width: 125,
-    height: 125,
+    width: 70,
+    height: 70,
   },
   text: {
     fontSize: 28,

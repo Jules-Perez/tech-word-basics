@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 import { NavigationProps } from "./_layout";
+import LineDivider from "@/components/LineDivider";
 
 const userLogo = require("@/assets/images/user.png");
 const mail = require("@/assets/images/mail.png");
@@ -64,24 +65,15 @@ export default function login() {
         Welcome Back! Select method to Login
       </Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.googleBtn}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>Google</Text>
-          <Image source={google} />
-        </TouchableOpacity>
-        <View style={styles.lineDivider}>
-          <View style={styles.line} />
-          <View style={styles.lineContent}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              or continue with email
-            </Text>
-          </View>
-          <View style={styles.line} />
-        </View>
         <View
           style={{ width: 300, height: 100, justifyContent: "space-between" }}
         >
           <ThemedInput label="Email" onChangeText={(e) => setLoginEmail(e)} />
-          <ThemedInput label="Password" onChangeText={(e) => setLoginPass(e)} />
+          <ThemedInput
+            isPassword
+            label="Password"
+            onChangeText={(e) => setLoginPass(e)}
+          />
         </View>
 
         <Link href={"/"} style={{ color: "white" }}>

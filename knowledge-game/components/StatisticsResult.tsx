@@ -16,14 +16,11 @@ export default memo(function StatisticsResult(props: IProp) {
   const [IncorrectAnswers, setIncorrectAnswers] = useState(0);
 
   useEffect(() => {
-    console.log("props.user", props.user);
     if (!props.user?.id) return;
     useApi()
       .getUserAnswerLogs(props.user.id)
       .then((res) => {
         const answerlogs = res as IAnswerLog[];
-        console.log("answerlogs", answerlogs);
-
         if (!answerlogs) {
           setLevelCompleted(0);
           setQuestionAnswered(0);
@@ -94,7 +91,11 @@ export default memo(function StatisticsResult(props: IProp) {
               }}
             ></View>
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-              Correct Answers {(CorrectAnswers / QuestionAnswered) * 100}%
+              Correct Answers{" - "}
+              {!isNaN(Math.round((CorrectAnswers / QuestionAnswered) * 100))
+                ? Math.round((CorrectAnswers / QuestionAnswered) * 100)
+                : 0}
+              %
             </Text>
           </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -107,7 +108,11 @@ export default memo(function StatisticsResult(props: IProp) {
               }}
             ></View>
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-              Wrong Answers {(IncorrectAnswers / QuestionAnswered) * 100}%
+              Wrong Answers{" - "}
+              {!isNaN(Math.round((IncorrectAnswers / QuestionAnswered) * 100))
+                ? Math.round((IncorrectAnswers / QuestionAnswered) * 100)
+                : 0}
+              %
             </Text>
           </View>
         </View>

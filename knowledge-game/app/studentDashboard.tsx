@@ -16,6 +16,7 @@ import { useNavigation } from "expo-router";
 import { useLoginSession } from "@/hooks/useLoginSession";
 import { IAnswerLog, IUser, useApi } from "@/hooks/useApi";
 import { gameLevels } from "@/constants/Levels";
+import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
 
 const hardwareHavenImg = require("@/assets/images/hardwareHaven.png");
 const networkNexusImg = require("@/assets/images/networkNexus.png");
@@ -78,11 +79,23 @@ const ArenaNav = memo((props: INavProp) => {
     return design;
   }, []);
 
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+
+  const handlePress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+
+    if (props?.onPress) {
+      props.onPress();
+    }
+  };
+
   return (
     <TouchableOpacity
       disabled={props.isLocked}
       style={{ marginHorizontal: 10 }}
-      onPress={props.onPress}
+      onPress={handlePress}
     >
       {props.isLocked ? (
         <Image
@@ -97,7 +110,7 @@ const ArenaNav = memo((props: INavProp) => {
           source={lockIcon}
         />
       ) : (
-        <></>
+        <View></View>
       )}
 
       <View style={{ opacity: props.isLocked ? 0.35 : 1 }}>
@@ -177,6 +190,7 @@ export default function StudentDashboard() {
   const [AnswerCountByCategory, setAnswerCountByCategory] = useState<number[]>([
     0, 0, 0, 0,
   ]);
+  const [ShowSettings, setShowSettings] = useState(false);
 
   const handleLevelSelect = (category_id: number) => {
     navigate("levelSelect", { category_id });
@@ -222,6 +236,16 @@ export default function StudentDashboard() {
       });
   }, [LoggedUser]);
 
+  const getProgressPercentage = () => {
+    const totalAnswerCount = AnswerCountByCategory.reduce(
+      (a, b) => (a += b),
+      0
+    );
+    const maxLevelCount = gameLevels.reduce((a, b) => (a += b.length), 0);
+
+    return (totalAnswerCount / maxLevelCount) * 100;
+  };
+
   return (
     <ThemedView>
       {/* <BottomNavigation>
@@ -229,7 +253,13 @@ export default function StudentDashboard() {
         <BottomNavButton img={imgLeaderboard} />
         <BottomNavButton img={imgStatistics} />
       </BottomNavigation> */}
-
+      <TopNav
+        showSettingsModal={ShowSettings}
+        options={[TopNavOptionsEnum.SETTINGS, TopNavOptionsEnum.COIN_STATUS]}
+        coins={LoggedUser?.byte_coins}
+        onSettingsOpen={() => setShowSettings(true)}
+        onSettingsClose={() => setShowSettings(false)}
+      />
       <View
         style={[styles.topFrameContainer, { zIndex: ShowTopPanel ? 10 : -10 }]}
       >
@@ -237,6 +267,8 @@ export default function StudentDashboard() {
           dropDown={ShowTopPanel}
           onHidden={() => setShowTopPanel(false)}
           onShow={() => setShowTopPanel(true)}
+          bytePower={LoggedUser?.byte_power}
+          progress={getProgressPercentage()}
         />
       </View>
       <View style={styles.arenaNavContainer}>
@@ -253,11 +285,12 @@ export default function StudentDashboard() {
             arenaLevelMax={gameLevels[1].length}
             arenaLevel={AnswerCountByCategory[1]}
             onPress={() => handleLevelSelect(1)}
-            isLocked={
-              !gameLevels[1]
-                ? true
-                : gameLevels[0].length != AnswerCountByCategory[0]
-            }
+            // enable if should unlock after completing a level
+            // isLocked={
+            //   !gameLevels[1]
+            //     ? true
+            //     : gameLevels[0].length != AnswerCountByCategory[0]
+            // }
           />
         </View>
         <View style={styles.arenaNavGroup}>
@@ -266,22 +299,24 @@ export default function StudentDashboard() {
             arenaLevelMax={10}
             arenaLevel={AnswerCountByCategory[2]}
             onPress={() => handleLevelSelect(2)}
-            isLocked={
-              !gameLevels[2]
-                ? true
-                : gameLevels[1].length != AnswerCountByCategory[1]
-            }
+            // enable if should unlock after completing a level
+            // isLocked={
+            //   !gameLevels[2]
+            //     ? true
+            //     : gameLevels[1].length != AnswerCountByCategory[1]
+            // }
           />
           <ArenaNav
             arena={arenaEnum.CYBERSECURITY_CITADEL}
             arenaLevelMax={10}
             arenaLevel={AnswerCountByCategory[3]}
             onPress={() => handleLevelSelect(3)}
-            isLocked={
-              !gameLevels[3]
-                ? true
-                : gameLevels[2].length != AnswerCountByCategory[2]
-            }
+            // enable if should unlock after completing a level
+            // isLocked={
+            //   !gameLevels[3]
+            //     ? true
+            //     : gameLevels[2].length != AnswerCountByCategory[2]
+            // }
           />
         </View>
       </View>
@@ -291,7 +326,7 @@ export default function StudentDashboard() {
 
 const styles = StyleSheet.create({
   topFrameContainer: {
-    marginBottom: -125,
+    marginBottom: -155,
   },
   arenaNavContainer: {
     flex: 1,

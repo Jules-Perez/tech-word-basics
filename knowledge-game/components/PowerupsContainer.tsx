@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { PowerupButton } from "./PowerupButton";
+import { ReactElement } from "react";
 
 const icons = {
   map: require("@/assets/images/map.png"),
@@ -8,15 +9,12 @@ const icons = {
   lightbulb: require("@/assets/images/lightbulb.png"),
 };
 
-export function PowerupsContainer() {
-  return (
-    <View style={styles.main}>
-      <PowerupButton icon={icons.map}></PowerupButton>
-      <PowerupButton icon={icons.refresh} value={50}></PowerupButton>
-      <PowerupButton icon={icons.check} value={100}></PowerupButton>
-      <PowerupButton icon={icons.lightbulb} value={80}></PowerupButton>
-    </View>
-  );
+interface IProps {
+  children?: ReactElement[];
+}
+
+export function PowerupsContainer(props: IProps) {
+  return <View style={styles.main}>{props.children}</View>;
 }
 
 const styles = StyleSheet.create({

@@ -14,6 +14,7 @@ interface IProps {
   answer?: string;
   isCorrect?: boolean;
   isVisible?: boolean;
+  isHint?: boolean;
   onContinue?: () => void;
 }
 
@@ -27,6 +28,17 @@ const praise = [
 ];
 
 export default function InformationModal(props: IProps) {
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+
+  const handlePress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+
+    if (props?.onContinue) {
+      props.onContinue();
+    }
+  };
   return (
     <View
       style={[
@@ -52,17 +64,22 @@ export default function InformationModal(props: IProps) {
               textShadowOffset: { width: 0, height: 2 },
             }}
           >
-            {`“${
-              props.isCorrect
-                ? praise[Math.floor(Math.random() * praise.length)]
-                : "Incorrect!"
-            } The answer is - ${props.answer}“\n\n“${props?.text}”`}
+            {!props.isHint
+              ? `“${
+                  props.isCorrect
+                    ? praise[Math.floor(Math.random() * praise.length)]
+                    : "Incorrect!"
+                } The answer is - ${props.answer}“\n\n“${props?.text}”`
+              : `“${props?.text?.replaceAll(
+                  new RegExp(props.answer ?? "", "ig"),
+                  "?"
+                )}”`}
           </Text>
         </View>
         <Image style={[styles.mascot]} source={mascot}></Image>
       </View>
       <TouchableOpacity
-        onPress={props.onContinue}
+        onPress={handlePress}
         style={{
           width: "100%",
           height: 250,

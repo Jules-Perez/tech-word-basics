@@ -23,6 +23,9 @@ interface IProps {
   dropDown: boolean;
   onHidden?: () => void;
   onShow?: () => void;
+  progress?: number;
+  bytePower?: number;
+  disabled?: boolean;
 }
 
 export default function TopFrame(props: IProps) {
@@ -70,8 +73,14 @@ export default function TopFrame(props: IProps) {
       useNativeDriver: true,
     }).start();
   };
-
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+  const handleSoundPress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+  };
   const handleDropdownBtn = () => {
+    handleSoundPress();
     if (!isVisible) show();
     else hide();
   };
@@ -83,7 +92,7 @@ export default function TopFrame(props: IProps) {
         source={frame}
       />
       <View style={styles.bytePowerContainer}>
-        <Text style={styles.byteVal}>5000</Text>
+        <Text style={styles.byteVal}>{props.bytePower ?? 0}</Text>
         <Text style={styles.byteLabel}>Byte Power</Text>
       </View>
       <Animated.View
@@ -98,7 +107,7 @@ export default function TopFrame(props: IProps) {
         <View style={styles.progressContainer}>
           <View style={styles.circleProgressShadow} />
           <CircularProgress
-            value={25}
+            value={props.progress ?? 0}
             maxValue={100}
             progressValueStyle={{ maxWidth: 55 }}
             activeStrokeWidth={15}
@@ -111,7 +120,10 @@ export default function TopFrame(props: IProps) {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate("studentStatistics")}
+            onPress={() => {
+              handleSoundPress();
+              navigate("studentStatistics");
+            }}
           >
             <Text style={styles.buttonText} selectionColor={"white"}>
               PROFILE
@@ -130,17 +142,21 @@ export default function TopFrame(props: IProps) {
           transform: [{ translateY: showAnimation }],
         }}
       >
-        <TouchableOpacity
-          style={{
-            padding: 10,
-            top: isVisible ? -15 : 0,
-            transform: [{ rotateX: isVisible ? "180deg" : "0deg" }],
-          }}
-          onPress={handleDropdownBtn}
-        >
-          <View style={styles.dropDownBtn} />
-          <View style={styles.dropDownBtnShadow} />
-        </TouchableOpacity>
+        {!props.disabled ? (
+          <TouchableOpacity
+            style={[
+              {
+                padding: 10,
+                top: isVisible ? -15 : 0,
+                transform: [{ rotateX: isVisible ? "180deg" : "0deg" }],
+              },
+            ]}
+            onPress={handleDropdownBtn}
+          >
+            <View style={styles.dropDownBtn} />
+            <View style={styles.dropDownBtnShadow} />
+          </TouchableOpacity>
+        ) : null}
       </Animated.View>
     </View>
   );

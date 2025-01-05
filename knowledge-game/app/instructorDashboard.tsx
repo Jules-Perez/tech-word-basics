@@ -12,11 +12,16 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { NavigationProps } from "./_layout";
 import { IUser, useApi } from "@/hooks/useApi";
 import { useLoginSession } from "@/hooks/useLoginSession";
+import { EditProfileModal } from "@/components/EditProfileModal";
+import StatboxGradient from "@/components/StatBoxGradient";
+import { ProfileImages } from "@/constants/ProfileImages";
+import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
 
 const imgPlaceholder = require("@/assets/images/user.png");
 const imgEdit = require("@/assets/images/edit.png");
@@ -26,12 +31,13 @@ interface IUserListProps {
   img?: string;
   name: string;
   id: string;
+  imgIndex?: number;
   onAccept: () => void;
 }
 function UserList(props: IUserListProps) {
   return (
     <View style={ulStyles.container}>
-      <Image style={ulStyles.img} source={imgPlaceholder} />
+      <Image style={ulStyles.img} source={ProfileImages[props.imgIndex ?? 0]} />
       <View style={ulStyles.dataContainer}>
         <Text style={ulStyles.name}>{props.name}</Text>
         <Text style={ulStyles.id}>{props.id}</Text>
@@ -52,7 +58,13 @@ const ulStyles = StyleSheet.create({
     backgroundColor: "#00000025",
     marginBottom: 8,
   },
-  img: { width: 45, height: 45 },
+  img: {
+    width: 48,
+    height: 48,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "white",
+  },
   dataContainer: { flexBasis: "35%" },
   name: { color: "white", fontWeight: "bold", fontSize: 20 },
   id: { fontSize: 12, color: "white" },
@@ -63,18 +75,18 @@ export default function InstructorDashboard(props: any) {
   const { navigate } = useNavigation<NavigationProps>();
   const [UnverifiedUsers, setUnverifiedUsers] = useState<IUser[]>([]);
   const [StudentCount, setStudentCount] = useState(0);
+  const [ShowEditProfile, setShowEditProfile] = useState(false);
+  const [ShowSettings, setShowSettings] = useState(false);
+
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+  const handleSoundPress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+  };
 
   useEffect(() => {
-    console.log(props);
-    useLoginSession()
-      .getLoggedUser()
-      .then((e) => {
-        if (!e || e.user_type !== "instructor") {
-          navigate("index");
-        } else {
-          setTimeout(() => setLoggedUser(e), 200);
-        }
-      });
+    refreshLoggedUser();
   }, []);
 
   useEffect(() => {
@@ -82,7 +94,6 @@ export default function InstructorDashboard(props: any) {
       .getAllUsers()
       .then((data) => {
         const unverified = (data as IUser[]).filter((d) => !d.is_verified);
-        console.log("unverified", unverified);
         if (!unverified) return;
         setUnverifiedUsers(unverified);
         setStudentCount(
@@ -101,6 +112,7 @@ export default function InstructorDashboard(props: any) {
           key={i}
           name={userData.name}
           id={userData.user_id}
+          imgIndex={userData.user_img_index}
         />
       ));
     },
@@ -118,9 +130,55 @@ export default function InstructorDashboard(props: any) {
         setUnverifiedUsers(prevUnregisteredUsers);
       });
   };
-
+  const refreshLoggedUser = () => {
+    useLoginSession()
+      .getLoggedUser()
+      .then((e) => {
+        if (!e || e.user_type !== "instructor") {
+          navigate("index");
+        } else {
+          setTimeout(() => setLoggedUser(e), 200);
+        }
+      });
+  };
   return (
     <ThemedView style={{ overflow: "hidden" }}>
+      <TopNav
+        showSettingsModal={ShowSettings}
+        options={[TopNavOptionsEnum.SETTINGS]}
+        coins={LoggedUser?.byte_coins}
+        onBack={() => navigate("studentDashboard")}
+        onSettingsOpen={() => setShowSettings(true)}
+        onSettingsClose={() => setShowSettings(false)}
+      />
+      {ShowEditProfile ? (
+        <EditProfileModal
+          user={
+            LoggedUser ?? {
+              id: -1,
+              user_id: "",
+              name: "",
+              pass: "",
+              user_type: "instructor",
+            }
+          }
+          onClose={() => {
+            setShowEditProfile(false);
+          }}
+          onEdit={(EditUser) => {
+            useApi()
+              .editUser(EditUser)
+              .then((res) => {
+                if (typeof res == "string") {
+                  alert(res);
+                  refreshLoggedUser();
+                  setShowEditProfile(false);
+                }
+              });
+          }}
+          visible={true}
+        />
+      ) : null}
       <BottomNavigation>
         <BottomNavButton logo={"profile"} />
         <BottomNavButton logo={"leaderboard"} />
@@ -129,35 +187,30 @@ export default function InstructorDashboard(props: any) {
           onPress={() => navigate("statistics")}
         />
       </BottomNavigation>
-      <View style={{ ...styles.main, maxHeight: windowHeight - 100 }}>
+      <View style={{ ...styles.main, top: 50, maxHeight: windowHeight - 50 }}>
         <View style={styles.dashboardContainer}>
-          <Image style={styles.profileImg} source={imgPlaceholder} />
+          <Image
+            style={styles.profileImg}
+            source={ProfileImages[LoggedUser?.user_img_index ?? 0]}
+          />
           <View style={styles.dashboardContent}>
             <Text style={styles.header}>Welcome Back!</Text>
             <Text style={styles.name}>{LoggedUser?.name.toUpperCase()}</Text>
             <Text style={styles.email}>{LoggedUser?.email}</Text>
           </View>
-          <Image source={imgEdit}></Image>
+          <TouchableOpacity
+            onPress={() => {
+              handleSoundPress();
+              setShowEditProfile(true);
+            }}
+          >
+            <Image source={imgEdit}></Image>
+          </TouchableOpacity>
         </View>
+
         <View style={styles.userStatsContainer}>
-          <View
-            style={{
-              ...styles.statContainer,
-              backgroundColor: "#6dabf6",
-            }}
-          >
-            <Text style={styles.count}>{StudentCount}</Text>
-            <Text style={styles.statLabel}>Total Student</Text>
-          </View>
-          <View
-            style={{
-              ...styles.statContainer,
-              backgroundColor: "#73e45e",
-            }}
-          >
-            <Text style={styles.count}>5</Text>
-            <Text style={styles.statLabel}>Total Section</Text>
-          </View>
+          <StatboxGradient value={StudentCount} color="blue" label="Students" />
+          <StatboxGradient value={5} color="green" label="Sections" />
         </View>
         <Text style={{ color: "white", marginHorizontal: 25 }}>
           List of Registration Requests
@@ -224,9 +277,6 @@ const styles = StyleSheet.create({
   },
   userStatsContainer: {
     flexDirection: "row",
-    display: "flex",
-    alignContent: "center",
-    alignItems: "center",
     justifyContent: "center",
   },
   statContainer: {

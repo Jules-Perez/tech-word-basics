@@ -2,7 +2,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import ThemedInput from "@/components/ThemedInput";
 import { ThemedView } from "@/components/ThemedView";
 import { IUser, IUserKeys, useApi, UserType } from "@/hooks/useApi";
-import { Link } from "@react-navigation/native";
+import { Link } from "expo-router";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -12,7 +12,7 @@ export default function signup() {
     user_type: null,
     user_id: "",
     name: "",
-    password: "",
+    pass: "",
     email: "",
     section: "",
   });
@@ -26,7 +26,7 @@ export default function signup() {
   };
 
   const handleOnSubmit = () => {
-    if (FormInput.password !== ConfirmPassword) {
+    if (FormInput.pass !== ConfirmPassword) {
       alert("Confirm password does not match.");
       return;
     }
@@ -35,7 +35,12 @@ export default function signup() {
     useApi().signupUser(FormInput);
     alert(`User ${FormInput.name} added for confirmation`);
   };
-
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+  const handleSoundPress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+  };
   return (
     <ThemedView style={{ paddingHorizontal: 35 }}>
       <Image source={require("@/assets/images/logo.png")} style={styles.logo} />
@@ -50,7 +55,10 @@ export default function signup() {
 
       <View style={styles.tabsContainer}>
         <TouchableOpacity
-          onPress={() => setactiveUserType("instructor")}
+          onPress={() => {
+            handleSoundPress();
+            setactiveUserType("instructor");
+          }}
           style={[
             styles.tabButton,
             {
@@ -64,7 +72,10 @@ export default function signup() {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setactiveUserType("student")}
+          onPress={() => {
+            handleSoundPress();
+            setactiveUserType("student");
+          }}
           style={[
             styles.tabButton,
             {
@@ -94,7 +105,7 @@ export default function signup() {
           label="EMAIL"
         />
         <ThemedInput
-          onChangeText={(text) => handleInstructormFormChange("password", text)}
+          onChangeText={(text) => handleInstructormFormChange("pass", text)}
           label="PASSWORD"
         />
         <ThemedInput
@@ -112,7 +123,7 @@ export default function signup() {
         </ThemedButton>
         <Text style={styles.signupText}>
           Already a member?{" "}
-          <Link to={"/"} style={styles.signupLink}>
+          <Link href={"/"} style={styles.signupLink}>
             Login here
           </Link>
         </Text>

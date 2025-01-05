@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://192.168.254.116:3000",
+  //baseURL: "http://:3000",
+  baseURL: "http://localhost:3000",
 });
 
 export type UserType = "instructor" | "student" | null;
@@ -11,19 +12,32 @@ export interface IUser {
   user_type: UserType;
   user_id: string;
   name: string;
-  password: string;
+  pass: string;
   email?: string;
   section?: string;
   is_verified?: boolean;
+  byte_coins?: number;
+  byte_power?: number;
+  rank?: number;
+  user_img_index?: number;
 }
-export type IUserKeys = "user_id" | "name" | "password" | "email" | "section";
+export type IUserKeys = "user_id" | "name" | "pass" | "email" | "section";
 
 const signupUser = async (user: IUser) => {
   try {
     const response = await api.post("/user/add", user);
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
+  }
+};
+
+const editUser = async (user: IUser) => {
+  try {
+    const response = await api.post(`/user/edit/${user.id}`, user);
+    return response.data;
+  } catch (err: any) {
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -32,7 +46,7 @@ const verifyUser = async (id: number) => {
     const response = await api.post("/user/verify/" + id);
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -46,7 +60,7 @@ const loginUser = async (loginRequirements: ILoginReq) => {
     const response = await api.get("/login", { params: loginRequirements });
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -55,7 +69,7 @@ const getAllUsers = async () => {
     const response = await api.get("/users");
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -64,7 +78,16 @@ const getUser = async (user_id: string) => {
     const response = await api.get(`/users/${user_id}`);
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
+  }
+};
+
+const getUserTransaction = async (id: number) => {
+  try {
+    const response = await api.get(`/user/transactions/${id}`);
+    return response.data;
+  } catch (err: any) {
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -74,14 +97,18 @@ export interface IAnswerLog {
   category_id: number;
   is_correct?: boolean;
   duration_seconds: number;
+  is_skipped?: boolean;
 }
 
-const answer = async (answerLog: IAnswerLog) => {
+const answer = async (answerLog: IAnswerLog, newScore: number) => {
   try {
-    const response = await api.post("/answer", answerLog);
+    const response = await api.post("/answer", {
+      new_score: newScore,
+      ...answerLog,
+    });
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -90,7 +117,16 @@ const getUserAnswerLogs = async (id: number) => {
     const response = await api.get("/answer_log/" + id);
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
+  }
+};
+
+const getUserRewardLogs = async (id: number, category_id: number) => {
+  try {
+    const response = await api.get(`/user/hasRewarded/${id}/${category_id}`);
+    return response.data;
+  } catch (err: any) {
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -99,7 +135,36 @@ const getUserAnswerLogsByCategory = async (id: number, category_id: number) => {
     const response = await api.get(`/answer_log/category/${id}/${category_id}`);
     return response.data;
   } catch (err: any) {
-    console.log(err.response?.data);
+    alert("Unexpected Error from the server");
+  }
+};
+
+const purchase = async (id: number, coinSpent: number) => {
+  try {
+    const response = await api.post(`/user/purchase/${id}`, {
+      coinSpent,
+    });
+    return response.data;
+  } catch (err: any) {
+    alert("Unexpected Error from the server");
+  }
+};
+
+const rewardUser = async (
+  id: number,
+  bytePowerReward?: number,
+  coinReward?: number,
+  category_id?: number
+) => {
+  try {
+    const response = await api.post(`/user/reward/${id}`, {
+      bytePowerReward,
+      coinReward,
+      category_id,
+    });
+    return response.data;
+  } catch (err: any) {
+    alert("Unexpected Error from the server");
   }
 };
 
@@ -108,10 +173,15 @@ export function useApi() {
     getAllUsers,
     getUser,
     signupUser,
+    editUser,
     loginUser,
     verifyUser,
     answer,
     getUserAnswerLogs,
+    getUserRewardLogs,
     getUserAnswerLogsByCategory,
+    getUserTransaction,
+    rewardUser,
+    purchase,
   };
 }

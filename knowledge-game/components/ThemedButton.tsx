@@ -13,22 +13,34 @@ import {
 interface IProps {
   logo?: ImageURISource;
   onPress?: () => void;
+  isMuted?: boolean;
+  overrideSound?: HTMLAudioElement;
   children?: string | JSX.Element | JSX.Element[];
   style?: StyleProp<ViewStyle>;
 }
 
 export function ThemedButton(props: IProps) {
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+
+  const handlePress = () => {
+    if (!(global as any).soundsMuted) {
+      if (props.overrideSound) {
+        props.overrideSound.play();
+      } else {
+        defaultClickSound.play();
+      }
+    }
+
+    if (props?.onPress) {
+      props.onPress();
+    }
+  };
   return (
-    <TouchableOpacity
-      style={[props.style, styles.outer]}
-      onPress={props.onPress}
-    >
+    <TouchableOpacity style={[props.style, styles.outer]} onPress={handlePress}>
       <View style={styles.inner}>
         {props.logo ? (
           <Image style={styles.logoImg} source={props.logo}></Image>
-        ) : (
-          <></>
-        )}
+        ) : null}
         <Text style={styles.text}>{props?.children}</Text>
       </View>
     </TouchableOpacity>
@@ -45,6 +57,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontFamily: "Tahoma",
     backgroundColor: "#246209",
+    width: "100%",
   },
   inner: {
     backgroundColor: "#246209",

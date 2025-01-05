@@ -24,12 +24,114 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { NavigationProps } from "./_layout";
+import { BaseModal } from "@/components/BaseModal";
+import LevelCompleteModal, {
+  ILevelCompleteProps,
+} from "@/components/LevelCompleteModal";
+import { PowerupButton } from "@/components/PowerupButton";
+import { ThemedButton } from "@/components/ThemedButton";
 
-const levelImages = [
-  require(`@/assets/images/ntt-${0}.png`),
-  require(`@/assets/images/ntt-${1}.png`),
-  require(`@/assets/images/ntt-${2}.png`),
-];
+const icons = {
+  map: require("@/assets/images/map.png"),
+  refresh: require("@/assets/images/refresh.png"),
+  check: require("@/assets/images/check.png"),
+  lightbulb: require("@/assets/images/lightbulb.png"),
+};
+
+enum PowerupsEnums {
+  SKIP = "Skip",
+  REVEAL = "Reveal Answer",
+  HINT = "Hint",
+}
+
+interface IPowerupUseModalProps {
+  visible?: boolean;
+  currentCoins?: number;
+  powerupUse?: PowerupsEnums;
+  powerupCost?: number;
+  canAfford?: boolean;
+  onPurchase: (powerup?: PowerupsEnums, cost?: number) => void;
+  onClose?: () => void;
+}
+
+function PowerupUseModal(props: IPowerupUseModalProps) {
+  return (
+    <BaseModal visible={props.visible} onClose={props.onClose}>
+      <View
+        style={{
+          backgroundColor: "#FCDEC7",
+          width: "65%",
+          top: 100,
+          borderRadius: 25,
+          position: "absolute",
+          padding: 15,
+        }}
+      >
+        <Text
+          style={{
+            color: "#564849",
+            fontWeight: "bold",
+            fontSize: 30,
+            textAlign: "center",
+            marginBottom: 25,
+          }}
+        >
+          You have
+          <Image
+            style={{ width: 35, height: 35, marginBottom: -5 }}
+            source={require("@/assets/images/coin.png")}
+          />
+          {props.currentCoins ?? 0}
+        </Text>
+        {props.canAfford ? (
+          <Text
+            style={{
+              color: "#564849",
+              fontWeight: "bold",
+              fontSize: 18,
+              textAlign: "center",
+            }}
+          >
+            Use {props.powerupUse?.toString() ?? "Powerup name"} (
+            <Image
+              style={{ width: 25, height: 25, marginBottom: -5 }}
+              source={require("@/assets/images/coin.png")}
+            />
+            {props.powerupCost ?? 0} )?
+          </Text>
+        ) : (
+          <Text
+            style={{
+              color: "#564849",
+              fontWeight: "bold",
+              fontSize: 18,
+              textAlign: "center",
+            }}
+          >
+            Insufficient Coins. <br></br>
+            {props.powerupUse ?? "Powerup name"} (
+            <Image
+              style={{ width: 25, height: 25, marginBottom: -5 }}
+              source={require("@/assets/images/coin.png")}
+            />
+            {props.powerupCost ?? 0} )
+          </Text>
+        )}
+        {props.canAfford ? (
+          <ThemedButton
+            onPress={() =>
+              props.onPurchase(props?.powerupUse, props.powerupCost)
+            }
+          >
+            USE
+          </ThemedButton>
+        ) : (
+          <ThemedButton onPress={props.onClose}>Back</ThemedButton>
+        )}
+      </View>
+    </BaseModal>
+  );
+}
 
 export default function NameThatThing() {
   const { navigate } = useNavigation<NavigationProps>();
@@ -48,6 +150,14 @@ export default function NameThatThing() {
     false
   );
   const [StartDate, setStartDate] = useState<Date>(new Date());
+  const [Score, setScore] = useState(0);
+  const [IsLevelComplete, setIsLevelComplete] = useState(false);
+  const [IsUserRewarded, setIsUserRewarded] = useState(false);
+  const [ShowPowerupModal, setShowPowerupModal] = useState(false);
+  const [SelectedPowerup, setSelectedPowerup] =
+    useState<IPowerupUseModalProps>();
+  const [HintUsed, setHintUsed] = useState(false);
+  const [RevealUsed, setRevealUsed] = useState(false);
 
   useEffect(() => {
     setLevel(parseInt(params?.level_id) ?? -1);
@@ -57,11 +167,23 @@ export default function NameThatThing() {
         if (!e || e.user_type !== "student") {
           navigate("index");
         } else {
-          setTimeout(() => {
-            setTimerStart(true);
-            setLoggedUser(e);
-            setCategory(params?.category_id ?? -1);
-          }, 200);
+          useApi()
+            .getUser(e.user_id)
+            .then((data) => {
+              if (!data) {
+                navigate("index");
+                return;
+              }
+              setTimeout(() => {
+                setTimerStart(true);
+                setLoggedUser(data);
+                setScore(data.byte_power ?? 0);
+                setCategory(params?.category_id ?? -1);
+              }, 200);
+            })
+            .catch((e) => {
+              navigate("index");
+            });
         }
       });
   }, []);
@@ -74,9 +196,6 @@ export default function NameThatThing() {
     }, 1000);
     return () => clearInterval(intervalRef.current);
   }, [TimerStart]);
-
-  //TODO: Testing
-  const [Score, setScore] = useState(0);
 
   const hoverAnimation = useSharedValue(0);
 
@@ -97,9 +216,12 @@ export default function NameThatThing() {
     setSelected(selection);
     setIsUserCorrect(isCorrect);
     setTimerStart(false);
+    setHintUsed(false);
+    setRevealUsed(false);
     clearInterval(intervalRef.current);
     const dateNow = new Date();
     const duration = dateNow.getSeconds() - StartDate.getSeconds();
+    const newScore = Score + calcScore(duration, isCorrect ?? false);
     let answerLog = {
       user_id: LoggedUser?.id ?? -1,
       category_id: currCategory,
@@ -108,17 +230,18 @@ export default function NameThatThing() {
       duration_seconds: duration,
     };
     useApi()
-      .answer(answerLog)
+      .answer(answerLog, newScore)
       .then(() => {});
     setTimeout(() => {
       setShowInfo(true);
-      if (isCorrect) {
-        setScore(Score + 100);
-      } else {
-        setScore(Score - 100 > 0 ? Score : 0);
-      }
+      setScore(newScore);
     }, 2000);
   }
+
+  const calcScore = (duration: number, isCorrect: boolean) => {
+    let score = 30 - duration;
+    return score + (isCorrect ? 10 : -50);
+  };
 
   useEffect(() => {
     if (!LoggedUser || Category == -1) return;
@@ -126,7 +249,6 @@ export default function NameThatThing() {
       data.choices = shuffleArray(data.choices);
       return data;
     });
-    console.log(randomChoices);
     setLevelData(randomChoices);
   }, [LoggedUser, Category]);
 
@@ -154,69 +276,217 @@ export default function NameThatThing() {
           }
           selected={Selected == i}
           isCorrect={c?.isCorrect}
+          reveal={RevealUsed}
         >
           {c.name}
         </ChoiceBox>
       ));
     },
-    [Selected, LoggedUser]
+    [Selected, LoggedUser, RevealUsed]
   );
 
   const handleInfoContinue = (levelIncrement: number) => {
-    console.log("levelIncrement", levelIncrement);
     setLevel(levelIncrement);
-    setTimerStart(true);
     setTimerSeconds(0);
     setShowInfo(false);
     setSelected(-1);
     setStartDate(new Date());
+    if (levelIncrement >= LevelData.length) {
+      setIsLevelComplete(true);
+    } else {
+      setTimerStart(true);
+    }
   };
 
+  // Powerups
+  function handlePowerupSelect(
+    powerupSelected: PowerupsEnums,
+    powerupCost: number
+  ) {
+    useApi()
+      .getUserTransaction(LoggedUser?.id ?? -1)
+      .then((res) => {
+        const { byte_coins } = { ...res };
+        setSelectedPowerup({
+          currentCoins: byte_coins,
+          powerupUse: powerupSelected,
+          powerupCost: powerupCost,
+          canAfford: byte_coins >= powerupCost,
+          onPurchase: () => {},
+        });
+        setShowPowerupModal(true);
+      });
+  }
+  function useSkip(cost: number) {
+    let answerLog = {
+      user_id: LoggedUser?.id ?? -1,
+      category_id: Category,
+      level_id: Level,
+      duration_seconds: 0,
+      is_skipped: true,
+    };
+    useApi()
+      .purchase(LoggedUser?.id ?? -1, cost)
+      .then(() => {
+        useApi()
+          .answer(answerLog, Score)
+          .then(() => {
+            setTimeout(() => {
+              handleInfoContinue(Level + 1);
+            }, 200);
+          });
+      });
+  }
+  function useHint(cost: number) {
+    useApi()
+      .purchase(LoggedUser?.id ?? -1, cost)
+      .then(() => {
+        setHintUsed(true);
+        setShowInfo(true);
+      });
+  }
+  function useReveal(cost: number) {
+    useApi()
+      .purchase(LoggedUser?.id ?? -1, cost)
+      .then(() => {
+        setRevealUsed(true);
+      });
+  }
+
+  const [ResultsData, setResultsData] = useState<ILevelCompleteProps>({});
+
+  const getResultsData = useMemo(() => {
+    let results: ILevelCompleteProps = {};
+    const FAST_ANSWER_DUR = 15;
+    const FAST_ANSWER_REWARD = 25;
+    const ANSWER_REWARD = 15;
+    results.coinsReward = 500;
+    useApi()
+      .getUserAnswerLogsByCategory(LoggedUser?.id ?? -1, Category)
+      .then((e) => {
+        const res = e as IAnswerLog[];
+        results.rightAnswersCount = res.filter((r) => r.is_correct).length;
+        results.rightAnswersMaxCount = res.length;
+        results.fastAnswersCount = res.filter((r) => {
+          return r.is_correct && r.duration_seconds <= FAST_ANSWER_DUR;
+        }).length;
+        results.bytePowerReward =
+          results.fastAnswersCount * FAST_ANSWER_REWARD +
+          (results.rightAnswersCount - results.fastAnswersCount) *
+            ANSWER_REWARD;
+        useApi()
+          .getUserRewardLogs(LoggedUser?.id ?? -1, Category)
+          .then((e) => {
+            if (e == null || e == "") {
+              useApi()
+                .rewardUser(
+                  LoggedUser?.id ?? -1,
+                  results.bytePowerReward,
+                  results.coinsReward,
+                  Category
+                )
+                .then(() => {
+                  setResultsData(results);
+                });
+            } else {
+              setResultsData(results);
+              setIsUserRewarded(true);
+            }
+          });
+      });
+  }, [IsLevelComplete]);
+
   return (
-    <>
+    <View style={{ flex: 1 }}>
+      <PowerupUseModal
+        {...SelectedPowerup}
+        visible={ShowPowerupModal}
+        onClose={() => setShowPowerupModal(false)}
+        onPurchase={(powerupUsed?: PowerupsEnums, cost: number = 0) => {
+          if (!powerupUsed) return;
+          setShowPowerupModal(false);
+          switch (powerupUsed) {
+            case PowerupsEnums.SKIP:
+              useSkip(cost);
+              break;
+            case PowerupsEnums.HINT:
+              useHint(cost);
+              break;
+            case PowerupsEnums.REVEAL:
+              useReveal(cost);
+              break;
+          }
+        }}
+      />
+      <LevelCompleteModal
+        visible={IsLevelComplete}
+        {...ResultsData}
+        isUserAlreadyRewarded={IsUserRewarded}
+        onComplete={() => {
+          navigate("studentDashboard");
+        }}
+      />
       <InformationModal
         isCorrect={IsUserCorrect}
         isVisible={ShowInfo}
+        isHint={HintUsed}
         text={LevelData[Level]?.description}
         answer={LevelData[Level]?.choices.find((c) => c.isCorrect)?.name}
-        onContinue={() => handleInfoContinue(Level + 1)}
+        onContinue={() => {
+          HintUsed ? setShowInfo(false) : handleInfoContinue(Level + 1);
+        }}
       />
-      <TopPanel energy={Score} timeSeconds={TimerSeconds} />
+      <TopPanel
+        energy={Score}
+        timeSeconds={TimerSeconds}
+        imgIndex={LoggedUser?.user_img_index}
+      />
       <ThemedView>
         <View style={styles.main}>
           {Level >= LevelData.length ? (
-            <View>
-              <Text
-                style={{ color: "white", fontWeight: "bold", fontSize: 30 }}
-              >
-                Congratulations! You have finished this stage.
-              </Text>
-              <Link
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: 30,
-                  textDecorationLine: "underline",
-                }}
-                href={"/studentDashboard"}
-              >
-                Go back to level select.
-              </Link>
-            </View>
+            <View></View>
           ) : (
-            <>
+            <View>
               <View style={styles.imgContainer}>
                 <View>{renderLevelImage(LevelData[Level])}</View>
               </View>
               <ChoiceContainer>
                 {renderChoices(LevelData[Level], Category, Level)}
               </ChoiceContainer>
-            </>
+            </View>
           )}
         </View>
       </ThemedView>
-      <PowerupsContainer />
-    </>
+      <PowerupsContainer>
+        <PowerupButton
+          onPress={() => {
+            navigate("levelSelect", { category_id: Category });
+          }}
+          icon={icons.map}
+        ></PowerupButton>
+        <PowerupButton
+          onPress={() => handlePowerupSelect(PowerupsEnums.SKIP, 50)}
+          icon={icons.refresh}
+          value={50}
+        ></PowerupButton>
+        <PowerupButton
+          onPress={() => {
+            !RevealUsed ? handlePowerupSelect(PowerupsEnums.REVEAL, 100) : null;
+          }}
+          icon={icons.check}
+          value={100}
+        ></PowerupButton>
+        <PowerupButton
+          onPress={() => {
+            !HintUsed
+              ? handlePowerupSelect(PowerupsEnums.HINT, 80)
+              : setShowInfo(true);
+          }}
+          icon={icons.lightbulb}
+          value={80}
+        ></PowerupButton>
+      </PowerupsContainer>
+    </View>
   );
 }
 

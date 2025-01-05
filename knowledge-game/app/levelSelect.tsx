@@ -15,6 +15,7 @@ import {
 import { NavigationProps } from "./_layout";
 import { useLoginSession } from "@/hooks/useLoginSession";
 import { IAnswerLog, IUser, useApi } from "@/hooks/useApi";
+import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
 
 const trail1 = require(`@/assets/images/trail1_active.png`);
 const trail1_inactive = require(`@/assets/images/trail1_inactive.png`);
@@ -32,6 +33,13 @@ export default function LevelSelect() {
   const params = useLocalSearchParams<{ category_id: number }>();
   const [LoggedUser, setLoggedUser] = useState<IUser>();
   const [AnswerLogs, setAnswerLogs] = useState<IAnswerLog[]>([]);
+
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+  const handleSoundPress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+  };
 
   useEffect(() => {
     useLoginSession()
@@ -51,21 +59,15 @@ export default function LevelSelect() {
     useApi()
       .getUserAnswerLogsByCategory(LoggedUser.id, Category)
       .then((answerLogs) => {
-        console.log("answerLogs", answerLogs);
         if (!answerLogs) return;
         setAnswerLogs(answerLogs as IAnswerLog[]);
       });
   }, [LoggedUser]);
 
   useEffect(() => {
-    const backAction = () => {
-      navigate("studentDashboard");
-      return true;
-    };
-
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
-      backAction
+      () => null
     );
 
     return () => backHandler.remove();
@@ -107,18 +109,17 @@ export default function LevelSelect() {
                       }}
                       source={lockIcon}
                     />
-                  ) : (
-                    <></>
-                  )}
+                  ) : null}
                   <TouchableOpacity
                     style={[styles.levelBtn, { opacity: isLocked ? 0.5 : 1 }]}
                     disabled={isLocked}
-                    onPress={() =>
+                    onPress={() => {
+                      handleSoundPress();
                       navigate("nameThatThing", {
                         category_id,
                         level_id: categoryLevels.length - i - 1,
-                      })
-                    }
+                      });
+                    }}
                   >
                     <Text
                       style={{
@@ -170,18 +171,17 @@ export default function LevelSelect() {
                     }}
                     source={lockIcon}
                   />
-                ) : (
-                  <></>
-                )}
+                ) : null}
                 <TouchableOpacity
                   style={[styles.levelBtn, { opacity: isLocked ? 0.5 : 1 }]}
                   disabled={isLocked}
-                  onPress={() =>
+                  onPress={() => {
+                    handleSoundPress();
                     navigate("nameThatThing", {
                       category_id,
                       level_id: categoryLevels.length - i - 1,
-                    })
-                  }
+                    });
+                  }}
                 >
                   <Text
                     style={{
@@ -209,6 +209,11 @@ export default function LevelSelect() {
 
   return (
     <ThemedView replaceBgImage={BG}>
+      <TopNav
+        options={[TopNavOptionsEnum.BACK, TopNavOptionsEnum.COIN_STATUS]}
+        coins={LoggedUser?.byte_coins}
+        onBack={() => navigate("studentDashboard")}
+      />
       <View
         style={{
           backgroundColor: "#0C2228",

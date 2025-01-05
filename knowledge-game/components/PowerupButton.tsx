@@ -1,13 +1,25 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface IProps {
   icon: any;
   value?: number;
+  onPress?: () => void;
 }
 
 export function PowerupButton(props: IProps) {
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+
+  const handlePress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+
+    if (props?.onPress) {
+      props.onPress();
+    }
+  };
   return (
-    <View style={styles.main}>
+    <TouchableOpacity onPress={handlePress} style={styles.main}>
       <Image style={styles.img} source={props.icon}></Image>
       {props.value ? (
         <View style={styles.value}>
@@ -20,7 +32,7 @@ export function PowerupButton(props: IProps) {
           </Text>
         </View>
       ) : null}
-    </View>
+    </TouchableOpacity>
   );
 }
 

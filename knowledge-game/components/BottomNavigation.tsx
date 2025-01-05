@@ -18,6 +18,17 @@ interface IButtonNavProps {
   onPress?: () => void;
 }
 export function BottomNavButton(props: IButtonNavProps) {
+  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+
+  const handlePress = () => {
+    if (!(global as any).soundsMuted) {
+      defaultClickSound.play();
+    }
+
+    if (props?.onPress) {
+      props.onPress();
+    }
+  };
   const renderLogo = () => {
     switch (props.logo) {
       case "profile":
@@ -32,7 +43,7 @@ export function BottomNavButton(props: IButtonNavProps) {
   };
 
   return (
-    <TouchableOpacity style={styles.buttonStyle} onPress={props.onPress}>
+    <TouchableOpacity style={styles.buttonStyle} onPress={handlePress}>
       <Image style={styles.buttonNavIcon} source={renderLogo()} />
     </TouchableOpacity>
   );

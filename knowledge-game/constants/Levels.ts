@@ -126,8 +126,6 @@ export const gameLevels: INameThatThingLevel[][] = [
         { name: "HEAT SINK" },
       ],
     },
-  ],
-  [
     {
       levelImg: require(`@/assets/images/ntt-${10}.png`),
       description:
@@ -192,6 +190,98 @@ export const gameLevels: INameThatThingLevel[][] = [
         { name: "MICROSCOPE" },
         { name: "CONTROLLER" },
         { name: "MOUSE" },
+      ],
+    },
+  ],
+  [
+    {
+      levelImg: require(`@/assets/images/ntt-${16}.png`),
+      description:
+        "Microsoft Excel is a versatile spreadsheet software developed by Microsoft, used globally for organizing data and performing financial analysis.",
+      choices: [
+        { name: "Microsoft Excel", isCorrect: true },
+        { name: "Microsoft word" },
+        { name: "Microsoft Lens" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${17}.png`),
+      description:
+        "Photoshop is an image creation, graphic design and photo editing software developed by Adobe.",
+      choices: [
+        { name: "Photoshop", isCorrect: true },
+        { name: "Photo Pea" },
+        { name: "Canva" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${18}.png`),
+      description:
+        "MS PowerPoint is a program that is covered in the Microsoft Office suite and is bundled unitedly with Word, Excel, and other office productivity tools. Microsoft PowerPoint is a powerful slide show presentation program.",
+      choices: [
+        { name: "MS PowerPoint", isCorrect: true },
+        { name: "Microsoft word" },
+        { name: "Microsoft Lens" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${19}.png`),
+      description:
+        " Chrome browser is a free web browser used for accessing the internet and running web-based applications.",
+      choices: [
+        { name: "Chrome browser", isCorrect: true },
+        { name: "Google" },
+        { name: "Microsoft Bing" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${20}.png`),
+      description:
+        "Skype is software that enables the world's conversations. Millions of individuals and businesses use Skype to make free video and voice one-to-one and group calls , send instant messages and share files with other people on Skype.",
+      choices: [
+        { name: "Skype", isCorrect: true },
+        { name: "Viber" },
+        { name: "Wechat" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${21}.png`),
+      description:
+        "MacOS is the operating system that powers every Mac. It lets you do things you simply can't with other computers. That's because it's designed specifically for the hardware it runs on — and vice versa.",
+      choices: [
+        { name: "MacOS", isCorrect: true },
+        { name: "Linux" },
+        { name: "Boot" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${22}.png`),
+      description:
+        "Linux is an open source operating system that is made up of the kernel, the base component of the OS, and the tools, apps, and services bundled along with it.",
+      choices: [
+        { name: "Linux", isCorrect: true },
+        { name: "Reddit" },
+        { name: "DuckDuck Go" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${23}.png`),
+      description:
+        "Adobe Acrobat Reader software is the free, trusted global standard for viewing, printing, signing, sharing, and annotating PDFs",
+      choices: [
+        { name: "Adobe Acrobat Reader", isCorrect: true },
+        { name: "WPS office." },
+        { name: "Microsoft word" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${24}.png`),
+      description:
+        "Windows Defender is a technology that provides real-time protection against malware, spyware, and other malicious software targeting the operating system.",
+      choices: [
+        { name: "Windows Defender", isCorrect: true },
+        { name: "Microsoft Windows" },
+        { name: "Spreed sheet" },
       ],
     },
   ],

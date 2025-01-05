@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IUser } from "./useApi";
+import { IUser, useApi } from "./useApi";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 export function useLoginSession() {
@@ -12,13 +12,20 @@ export function useLoginSession() {
             resolve(null);
           } else {
             const user = JSON.parse(e) as IUser;
-            if (user) {
-              resolve(user);
-            }
+            useApi()
+              .getUser(user.user_id)
+              .then((e) => {
+                e as IUser;
+                resolve(e);
+              });
           }
         });
     });
   };
 
-  return { getLoggedUser };
+  const LogOutUser = () => {
+    useAsyncStorage("loggedUser").removeItem();
+  };
+
+  return { getLoggedUser, LogOutUser };
 }

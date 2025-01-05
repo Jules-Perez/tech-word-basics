@@ -1,14 +1,14 @@
-knowledge-game/node_modules/
-knowledge-game/.expo/
-knowledge-game/dist/
-knowledge-game/npm-debug.*
+node_modules/
+.expo/
+dist/
+npm-debug.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
 *.orig.*
-knowledge-game/web-build/
+web-build/
 
 # macOS
 .DS_Store

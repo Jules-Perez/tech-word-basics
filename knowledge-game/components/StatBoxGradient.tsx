@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     height: 95,
+    minWidth: 200,
     alignItems: "baseline",
   },
 });
