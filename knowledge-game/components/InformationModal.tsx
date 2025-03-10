@@ -69,7 +69,9 @@ export default function InformationModal(props: IProps) {
                   props.isCorrect
                     ? praise[Math.floor(Math.random() * praise.length)]
                     : "Incorrect!"
-                } The answer is - ${props.answer}“\n\n“${props?.text}”`
+                } The answer is - ${props.answer}“\n${
+                  props?.text ? `\n"${props.text}"` : ""
+                }`
               : `“${props?.text?.replaceAll(
                   new RegExp(props.answer ?? "", "ig"),
                   "?"

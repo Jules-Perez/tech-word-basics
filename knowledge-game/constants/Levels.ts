@@ -6,7 +6,8 @@ type choices = {
 };
 
 export interface INameThatThingLevel {
-  levelImg: ImageSourcePropType;
+  levelImg?: ImageSourcePropType; //if Img does not exist, show question instead.
+  question?: string;
   description?: string;
   choices: choices[];
 }
@@ -63,7 +64,7 @@ export const gameLevels: INameThatThingLevel[][] = [
     {
       levelImg: require(`@/assets/images/ntt-${4}.png`),
       description:
-        "A flash drive  is a data storage device that includes flash memory with an integrated USB interface. A typical USB drive is removable, rewritable, and smaller than an optical disc, and usually weighs less than 30 g (1 oz).",
+        "A flash drive is a data storage device that includes flash memory with an integrated USB interface. A typical USB drive is removable, rewritable, and smaller than an optical disc, and usually weighs less than 30 g (1 oz).",
       choices: [
         { name: "FLASH DRIVE", isCorrect: true },
         { name: "USB" },
@@ -227,7 +228,7 @@ export const gameLevels: INameThatThingLevel[][] = [
     {
       levelImg: require(`@/assets/images/ntt-${19}.png`),
       description:
-        " Chrome browser is a free web browser used for accessing the internet and running web-based applications.",
+        "Chrome browser is a free web browser used for accessing the internet and running web-based applications.",
       choices: [
         { name: "Chrome browser", isCorrect: true },
         { name: "Google" },
@@ -282,6 +283,691 @@ export const gameLevels: INameThatThingLevel[][] = [
         { name: "Windows Defender", isCorrect: true },
         { name: "Microsoft Windows" },
         { name: "Spreed sheet" },
+      ],
+    },
+  ],
+  [
+    {
+      question:
+        "Cybersecurity is the act of protecting computer systems, networks program, and data from digital attacks, unauthorized access, damage or theft.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "CIA stands for Confidentiality information address.",
+      description:
+        "CIA stands for Confidentiality, Integrity, and Availability.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Phishing is the fraudulent practice of sending spam emails by impersonating legitimate sources.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Social engineering attacks can take many forms and can be carried out anywhere human collaboration is required.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "VPN stands for Virtual Process Network.",
+      description: "VPN stands for Virtual Private Network.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question: "ARP stands for Address Restart Protocol.",
+      description:
+        "Address Resolution Protocol (ARP) is a protocol for mapping an Internet Protocol address (IP address) to a physical machine address that is recognized in the local network.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Ransomware is documented encryption programing that uses special cryptographic calculations to encrypt records in a targeted framework.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Cryptocurrency Hijacking as a digital currencies and mining become more popular so do cybercriminals. They have found an evil advantage in crytocurrency mining, which involves complex calculations to mine virtual currencies such as Bitcoin, Ethereum, Monero, and Litecoin.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Bonet attacks often target large organization and entities that obtain vast amounts of information. This attack allows programmers to control countless devices for cunning intent.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Application security is the most important core component of cyber security, adding security highlights to applications during the improvement period to defend against cyber attacks.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Physical Layer handles the movement of data to and from the physical link. It is also responsible for encoding and decoding of data bits.",
+      description:
+        "Physical Layer: Responsible for transmission of digital data from sender to receiver through the communication media.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Information security is a component of cyber security that describes how information is protect agaist unauthorized access, use, disclosure, disruption, alteration, or deletion.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Network security is the security provided to a network from unauthorized access and threats. It is the network administrator’s reponsibility to take precautions to protect the network from potential security threats. Network security is another element of IT security. The method of defending and preventing unauthorized access to computer networks.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Confidentiality maintaining of Hardware, upgrading regularly Data Backups and Recovery, Network Bottlenecks should be taken care of.",
+      description:
+        "Confidentiality the information should be accessible and readable only to authorized personnel. It should not be accessible by unauthorized personnel. The information should be strongly encrypted just in case someone uses hacking to access the data so that even if the data is accessed, it is not readable or understandable.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Disaster Recovery Planning a plan that describes the continuity of work after a disaster quickly and efficiently is known as a disaster recovery plan at the business level and identify applications that are generally critical to carrying out the association’s activities.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Operational Security in order to protect sensitive data from a variety of threats, the process of allowing administrators to see activity from a hackers perpective is called operational security(OPSEC) or procedural security.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "End User Education is the most important component of computer security.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "The Domain Name System (DNS) translates domain names into IP addressesthat browsers use to load web pages.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Availability Integrity ensures that data is not corrupted or modified by unauthorized personnel. If an authorized individual/system is trying to modify the data and the modification wasn’t successful. Then the data should be reversed back and should not be corrupted.",
+      description:
+        "Availability The data should be available to the user whenever the user requires it. Maintaining of Hardware, upgrading regularly, Data Backups and Recovery, Network Bottlenecks should be taken care of.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "A firewall is a hardware or software-based network security devices that monitors all incoming and outgoing traffic and accepts, denies, or drop that particular traffic based on a defined set of security rules.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "VPN stands for Virtual Private Network that creates a secure, encrypted connection over an insecure network like the internet.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Integrity the data should be available to the user whenever the user requires it.",
+      description:
+        "Integrity ensures that data is not corrupted or modified by unauthorized personnel. If an authorized individual/system is trying to modify the data and the modification wasn’t successful, then the data should be reversed back and should not be corrupted.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "A worm is basically a type of malicious malware that spreads rapidly from one computer to another via email and file sharing.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Transport layer responsible for packet forwarding and providing routing paths for network communication.",
+      description:
+        "Transport Layer: Responsible for end-to-end communication over the network. It splits the data from the above layer and passes it to the Network Layer and then ensures that all the data has successfully reached at the receiver’s end.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Spyware is basically a type of malicious malware that runs in the background of your computer, steals all your sensitive data and reports this data to remote attackers.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Ransomware is used as malware to extort money from users to ransom by gaining unauthorized access to sensitive user information and demanding payment to delete or return that information from user.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Data Link Layer responsible for transmission od digital data from sender to receiver through the communication media.",
+      description:
+        "Data Link Layer: Handles the movement of data to and from the physical link. It is also responsible for encoding and decoding of data bits.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "A virus is a type of malicious malware that comes as an attachment with a file or a program.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Trojans are malicious non-replicating malware that often degrades computer performance and efficiency.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Network Layer responsible for end to end communication over the network. It splits the data from the above layer and passes it to the Network Layer and then ensure that all data has successfully reached at the receiver’s end.",
+      description:
+        "Network Layer: Responsible for packet forwarding and providing routing paths for network communication.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Active attack is a type of attack in which the attecker modifies or attempts to modify the content of the message.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+  ],
+  [
+    {
+      levelImg: require(`@/assets/images/ntt-${25}.jpg`),
+      description:
+        "Windows 10 - A popular operating system for personal computers, known for its user-friendly interface.",
+      choices: [
+        { name: "Windows 10", isCorrect: true },
+        { name: "Media Player" },
+        { name: "Microsoft" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${26}.jpg`),
+      description:
+        "Ubuntu - A popular Linux distribution known for its user-friendliness and wide range of software support.",
+      choices: [
+        { name: "Ubuntu", isCorrect: true },
+        { name: "Safari" },
+        { name: "Canva" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${27}.png`),
+      description:
+        "Unix - A foundational operating system that has influenced many modern systems, including Linux and Mac OSZ",
+      choices: [
+        { name: "Unix", isCorrect: true },
+        { name: "Opera" },
+        { name: "Canva" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${28}.png`),
+      description:
+        "Android - A mobile operating system used by many smartphones and tablets known for its open source nature and customization options.",
+      choices: [
+        { name: "Android", isCorrect: true },
+        { name: "Robot" },
+        { name: "IOS" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${29}.png`),
+      description:
+        "IOS - The operating system for apple ‘s iphones  and ipads, known for its smooth performance and tight integration with Apple’s services.",
+      choices: [
+        { name: "IOS", isCorrect: true },
+        { name: "Android" },
+        { name: "Orange" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${30}.png`),
+      description:
+        "Mozilla Firefox - A reliable and customizable web browser known for its privacy features and support for add-ons.",
+      choices: [
+        { name: "Mozilla Firefox", isCorrect: true },
+        { name: "Opera" },
+        { name: "Eclipse IDE" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${31}.jpg`),
+      description:
+        "Microsoft Edge - The defaullt web browser for Windows known for its integration with microsoft services and performance improvements.",
+      choices: [
+        { name: "Microsoft Edge", isCorrect: true },
+        { name: "Unix" },
+        { name: "Ubuntu" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${32}.png`),
+      description:
+        "Safari - The default web browser for apple devices known for its speed and integration with apple’s ecosystem.",
+      choices: [
+        { name: "Safari", isCorrect: true },
+        { name: "PyCharm" },
+        { name: "Unity" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${33}.png`),
+      description:
+        "Opera - A fast and feature rich web browser known for its built-in VPN and ad blocker.",
+      choices: [
+        { name: "Opera", isCorrect: true },
+        { name: "NetBeans" },
+        { name: "Unity" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${34}.png`),
+      description:
+        "Windows Media Player - The default media player for Windows, capable of playing various audio and video formats.",
+      choices: [
+        { name: "Windows Media Player", isCorrect: true },
+        { name: "One Drive" },
+        { name: "Unity Engine" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${35}.png`),
+      description:
+        "VLC Media Player - A versatile media player that can play almost any audio or video format, known for its open source nature and cross-platform compatibility.",
+      choices: [
+        { name: "VLC Media Player", isCorrect: true },
+        { name: "Dropbox" },
+        { name: "Win Zip" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${36}.png`),
+      description:
+        "XCode - The official IDE for developing applications for Apple’s iOs, macOS, and watchOS platfoms.",
+      choices: [
+        { name: "XCode", isCorrect: true },
+        { name: "Blender" },
+        { name: "Canva" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${37}.png`),
+      description:
+        "Android Studio - The official IDE for developing Android applications, providing tools for building, testing, and deploying apps.",
+      choices: [
+        { name: "Android Studio", isCorrect: true },
+        { name: "GitHub" },
+        { name: "Xcode" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${38}.png`),
+      description:
+        "Unity - A game engine used for creating 2D and 3D games, known for its ease of use and powerful features.",
+      choices: [
+        { name: "Unity", isCorrect: true },
+        { name: "MySQL" },
+        { name: "PyCharm" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${39}.png`),
+      description:
+        "Adobe Photoshop - A powerful image editing software used by professionals and enthusiasts alike for photo manipulation, graphic design.",
+      choices: [
+        { name: "Adobe Photoshop", isCorrect: true },
+        { name: "Eclipse IDE" },
+        { name: "PyCharm" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${40}.png`),
+      description:
+        "Canva - A user-friendly graphic design platform that offers templates and tools for creating visual content.",
+      choices: [
+        { name: "Canva", isCorrect: true },
+        { name: "NetBeans" },
+        { name: "Ubuntu" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${41}.png`),
+      description:
+        "Blender - A free and open-source 3D creation software used for animation, modeling, and rendering.",
+      choices: [
+        { name: "Blender", isCorrect: true },
+        { name: "Unity" },
+        { name: "C++" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${42}.png`),
+      description:
+        "Adobe Premiere Pro - A professional video editing software used for creating high-quality videos for film, television, and web.",
+      choices: [
+        { name: "Adobe Premiere Pro", isCorrect: true },
+        { name: "Unix" },
+        { name: "Ubuntu" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${43}.png`),
+      description:
+        "Visual Studio Code - A popular code editor known for its extensibility, debugging features, and support for various programming languages.",
+      choices: [
+        { name: "Visual Studio Code", isCorrect: true },
+        { name: "PyCharm" },
+        { name: "C++" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${44}.png`),
+      description:
+        "JetBrain IntelliJ IDEA - A powerful integrated development environment (IDE) primary used for Java development.",
+      choices: [
+        { name: "JetBrain IntelliJ IDEA", isCorrect: true },
+        { name: "NetBeans" },
+        { name: "Unity" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${45}.png`),
+      description:
+        "Eclipse IDE - A widely used IDE that supports multiple programming languages, including Java, C++, and Python.",
+      choices: [
+        { name: "Eclipse IDE", isCorrect: true },
+        { name: "Oracle Database" },
+        { name: "Cisco Packet Tracer" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${46}.png`),
+      description:
+        "NetBeans - Another popular IDE that supports various programming languages including Java , C++, and PHP.",
+      choices: [
+        { name: "NetBeans", isCorrect: true },
+        { name: "Mango DB" },
+        { name: "PuTTy" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${47}.png`),
+      description:
+        "PyCharm - An IDE specifically designed for Python development known for its code completion, debugging, and refactoring features.",
+      choices: [
+        { name: "PyCharm", isCorrect: true },
+        { name: "SQLite" },
+        { name: "Open VPN" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${48}.png`),
+      description:
+        "GitHub - A platform for hosting and managing Git repositories, enabling collaboration on software projects.",
+      choices: [
+        { name: "GitHub", isCorrect: true },
+        { name: "Android Studio" },
+        { name: "SQLite" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${49}.png`),
+      description:
+        "MySOL - A popular open-source relational database management system (RDBMS) widely used for web applications.",
+      choices: [
+        { name: "MySOL", isCorrect: true },
+        { name: "GitHub" },
+        { name: "Firebase" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${50}.png`),
+      description:
+        "PostgreSQL - Another popular, open-source RDBMS known for its reliability, data integrity, and advanced features.",
+      choices: [
+        { name: "PostgreSQL", isCorrect: true },
+        { name: "Canva" },
+        { name: "Sophos" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${51}.png`),
+      description:
+        "Firebase - A platform that provides cloud-based services for mobile and web app development, including a real-time database.",
+      choices: [
+        { name: "Firebase", isCorrect: true },
+        { name: "GitHub" },
+        { name: "Android Studio" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${52}.png`),
+      description:
+        "Windows Defender - The built-in antivirus software for Windows, providing basic protection against malware.",
+      choices: [
+        { name: "Windows Defender", isCorrect: true },
+        { name: "MySOL" },
+        { name: "GitHub" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${53}.png`),
+      description:
+        "Sophos - A commercial antivirus and endpoint security software known for its comprehensive protection and management features.",
+      choices: [
+        { name: "Sophos", isCorrect: true },
+        { name: "Postgre SQL" },
+        { name: "Canva" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${54}.png`),
+      description:
+        "Cisco Packet Tracer - A network simulation software used for learning and experimenting with network configurations.",
+      choices: [
+        { name: "Cisco Packet Tracer", isCorrect: true },
+        { name: "Android Studio" },
+        { name: "SQLite" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${55}.png`),
+      description:
+        "PuTTy - An open-source SSH and telnet client used for connecting to remote servers.",
+      choices: [
+        { name: "PuTTy", isCorrect: true },
+        { name: "GitHub" },
+        { name: "Firebase" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${56}.png`),
+      description:
+        "Open VPN - A popular open-source VPN client used for encrypting internet traffic and protecting privacy.",
+      choices: [
+        { name: "Open VPN", isCorrect: true },
+        { name: "Canva" },
+        { name: "Sophos" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${57}.png`),
+      description:
+        "Dropbox - A cloud storage service that allows users to store and sync files across multiple devices.",
+      choices: [
+        { name: "Dropbox", isCorrect: true },
+        { name: "RARWin Zip" },
+        { name: "Cisco Packet Tracer" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${58}.png`),
+      description:
+        "One Drive - A cloud storage service that allows users to store and sync files across multiple devices.",
+      choices: [
+        { name: "One Drive", isCorrect: true },
+        { name: "Unity Engine" },
+        { name: "PuTTy" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${59}.png`),
+      description:
+        "WinRAR - A popular file archiver used for compressing and extracting files.",
+      choices: [
+        { name: "WinRAR", isCorrect: true },
+        { name: "Xbox App" },
+        { name: "Open VPN" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${60}.png`),
+      description:
+        "Oracle Database - A commercial RDBMS known for its scalability, performance, and security features.",
+      choices: [
+        { name: "Oracle Database", isCorrect: true },
+        { name: "Cisco Packet Tracer" },
+        { name: "Team Viewer" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${61}.png`),
+      description:
+        "Mango DB - A popular NoSQL database known for its scalability, flexibility, and ease of use.",
+      choices: [
+        { name: "Mango DB", isCorrect: true },
+        { name: "PuTTy" },
+        { name: "Any Desk" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${62}.png`),
+      description:
+        "SQLite - A lightweight, embedded database often used in mobile apps and other applications where a full-fledged database is not required.",
+      choices: [
+        { name: "SQLite", isCorrect: true },
+        { name: "Open VPN" },
+        { name: "Zoom" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${63}.png`),
+      description:
+        "Microsoft Teams - A lightweight, embedded database often used in mobile apps and other applications where a full-fledged database is not required.",
+      choices: [
+        { name: "Microsoft Teams", isCorrect: true },
+        { name: "Play Station App" },
+        { name: "Dropbox" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${64}.png`),
+      description:
+        "Skype - A popular video and voice calling application that allows users to connect with others around the world.",
+      choices: [
+        { name: "Skype", isCorrect: true },
+        { name: "Tensor Flow" },
+        { name: "One Drive" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${65}.png`),
+      description:
+        "Google Meet - A video conferencing platform offered by Google, allowing users to host online meetings and webinars.",
+      choices: [
+        { name: "Google Meet", isCorrect: true },
+        { name: "PyTorch" },
+        { name: "Win RAR" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${66}.png`),
+      description:
+        "Team Viewer - A remote access software used for controlling computers remotely.",
+      choices: [
+        { name: "Team Viewer", isCorrect: true },
+        { name: "Play Station App" },
+        { name: "Win Zip" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${67}.png`),
+      description:
+        "AnyDesk - A popular remote access software known for its speed and security.",
+      choices: [
+        { name: "AnyDesk", isCorrect: true },
+        { name: "Tensor Flow" },
+        { name: "Unity Engine" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${68}.png`),
+      description:
+        "Zoom - A video conferencing platform that allows users to host online meetings and webinars.",
+      choices: [
+        { name: "Zoom", isCorrect: true },
+        { name: "PyTorch" },
+        { name: "Xbox App" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${69}.png`),
+      description:
+        "Win Zip - A file archiver similar to WinRAR, known for its compression and encryption features.",
+      choices: [
+        { name: "Win Zip", isCorrect: true },
+        { name: "Play Station App" },
+        { name: "Tensor Flow" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${70}.png`),
+      description:
+        "Unity Engine - A game engine used for developing 2D and 3D games, known for its ease of use and powerful features.",
+      choices: [
+        { name: "Unity Engine", isCorrect: true },
+        { name: "Tensor Flow" },
+        { name: "Xbox App" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${71}.png`),
+      description:
+        "Xbox App - An app for Windows that allows users to play Xbox games on their computers.",
+      choices: [
+        { name: "Xbox App", isCorrect: true },
+        { name: "PyTorch" },
+        { name: "Play Station App" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${72}.png`),
+      description:
+        "Play Station App - An app for mobile devices that allows users to manage their PlayStation accounts, download games, and connect with friends.",
+      choices: [
+        { name: "Play Station App", isCorrect: true },
+        { name: "Dropbox" },
+        { name: "Microsoft Teams" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${73}.png`),
+      description:
+        "Tensor Flow - An open-source machine learning framework developed by Google, widely used for building and deploying machine learning models.",
+      choices: [
+        { name: "Tensor Flow", isCorrect: true },
+        { name: "One Drive" },
+        { name: "SkyPe" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${74}.png`),
+      description:
+        "PyTorch - Another popular open-source machine learning framework known for its flexibility and research-oriented features.",
+      choices: [
+        { name: "PyTorch", isCorrect: true },
+        { name: "WinRAR" },
+        { name: "Google Meet" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${75}.png`),
+      description:
+        "Google Colab - A cloud-based Jupyter notebook environment that provides access to GPUs and TPUs for machine learning tasks.",
+      choices: [
+        { name: "Google Colab", isCorrect: true },
+        { name: "Dropbox" },
+        { name: "Google Meet" },
       ],
     },
   ],

@@ -225,7 +225,7 @@ export default function StudentDashboard() {
           (a) => a.category_id == 2
         ).length;
         const category3Count = (answerLogs as IAnswerLog[]).filter(
-          (a) => a.category_id == 2
+          (a) => a.category_id == 3
         ).length;
         setAnswerCountByCategory([
           category0Count,
@@ -296,7 +296,7 @@ export default function StudentDashboard() {
         <View style={styles.arenaNavGroup}>
           <ArenaNav
             arena={arenaEnum.NETWORK_NEXUS}
-            arenaLevelMax={10}
+            arenaLevelMax={gameLevels[2].length}
             arenaLevel={AnswerCountByCategory[2]}
             onPress={() => handleLevelSelect(2)}
             // enable if should unlock after completing a level
@@ -308,7 +308,7 @@ export default function StudentDashboard() {
           />
           <ArenaNav
             arena={arenaEnum.CYBERSECURITY_CITADEL}
-            arenaLevelMax={10}
+            arenaLevelMax={gameLevels[3].length}
             arenaLevel={AnswerCountByCategory[3]}
             onPress={() => handleLevelSelect(3)}
             // enable if should unlock after completing a level

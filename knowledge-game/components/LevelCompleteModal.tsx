@@ -186,6 +186,7 @@ export interface ILevelCompleteProps {
   fastAnswersCount?: number;
   bytePowerReward?: number;
   coinsReward?: number;
+  categoryLevel: number;
   isUserAlreadyRewarded?: boolean;
   visible?: boolean;
   onComplete?: () => void;
@@ -215,7 +216,7 @@ export default function LevelCompleteModal(props: ILevelCompleteProps) {
             textShadowRadius: 4,
           }}
         >
-          Level 1
+          Level {parseInt(props.categoryLevel.toString()) + 1}
         </Text>
         <RewardScreen
           {...props}

@@ -253,7 +253,11 @@ export default function NameThatThing() {
   }, [LoggedUser, Category]);
 
   const renderLevelImage = useCallback((level: INameThatThingLevel) => {
-    return <Image style={styles.img} source={level?.levelImg}></Image>;
+    return level?.levelImg ? (
+      <Image style={styles.img} source={level?.levelImg}></Image>
+    ) : (
+      <Text style={styles.question}>{level?.question}</Text>
+    );
   }, []);
 
   function shuffleArray(array: any[]) {
@@ -421,6 +425,7 @@ export default function NameThatThing() {
       <LevelCompleteModal
         visible={IsLevelComplete}
         {...ResultsData}
+        categoryLevel={Category}
         isUserAlreadyRewarded={IsUserRewarded}
         onComplete={() => {
           navigate("studentDashboard");
@@ -504,5 +509,14 @@ const styles = StyleSheet.create({
     margin: 15,
     width: 220,
     height: 220,
+  },
+  question: {
+    marginVertical: 25,
+    fontWeight: "bold",
+    fontSize: 22,
+    padding: 15,
+    color: "#564849",
+    backgroundColor: "#FCDEC7",
+    borderRadius: 10,
   },
 });
