@@ -13,6 +13,7 @@ export interface INameThatThingLevel {
 }
 
 export const gameLevels: INameThatThingLevel[][] = [
+  // HARDWARE
   [
     {
       levelImg: require(`@/assets/images/ntt-${0}.png`),
@@ -194,6 +195,7 @@ export const gameLevels: INameThatThingLevel[][] = [
       ],
     },
   ],
+  // SOFTWARE
   [
     {
       levelImg: require(`@/assets/images/ntt-${16}.png`),
@@ -285,181 +287,6 @@ export const gameLevels: INameThatThingLevel[][] = [
         { name: "Spreed sheet" },
       ],
     },
-  ],
-  [
-    {
-      question:
-        "Cybersecurity is the act of protecting computer systems, networks program, and data from digital attacks, unauthorized access, damage or theft.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question: "CIA stands for Confidentiality information address.",
-      description:
-        "CIA stands for Confidentiality, Integrity, and Availability.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "Phishing is the fraudulent practice of sending spam emails by impersonating legitimate sources.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Social engineering attacks can take many forms and can be carried out anywhere human collaboration is required.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question: "VPN stands for Virtual Process Network.",
-      description: "VPN stands for Virtual Private Network.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question: "ARP stands for Address Restart Protocol.",
-      description:
-        "Address Resolution Protocol (ARP) is a protocol for mapping an Internet Protocol address (IP address) to a physical machine address that is recognized in the local network.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "Ransomware is documented encryption programing that uses special cryptographic calculations to encrypt records in a targeted framework.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Cryptocurrency Hijacking as a digital currencies and mining become more popular so do cybercriminals. They have found an evil advantage in crytocurrency mining, which involves complex calculations to mine virtual currencies such as Bitcoin, Ethereum, Monero, and Litecoin.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Bonet attacks often target large organization and entities that obtain vast amounts of information. This attack allows programmers to control countless devices for cunning intent.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Application security is the most important core component of cyber security, adding security highlights to applications during the improvement period to defend against cyber attacks.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Physical Layer handles the movement of data to and from the physical link. It is also responsible for encoding and decoding of data bits.",
-      description:
-        "Physical Layer: Responsible for transmission of digital data from sender to receiver through the communication media.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "Information security is a component of cyber security that describes how information is protect agaist unauthorized access, use, disclosure, disruption, alteration, or deletion.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Network security is the security provided to a network from unauthorized access and threats. It is the network administrator’s reponsibility to take precautions to protect the network from potential security threats. Network security is another element of IT security. The method of defending and preventing unauthorized access to computer networks.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Confidentiality maintaining of Hardware, upgrading regularly Data Backups and Recovery, Network Bottlenecks should be taken care of.",
-      description:
-        "Confidentiality the information should be accessible and readable only to authorized personnel. It should not be accessible by unauthorized personnel. The information should be strongly encrypted just in case someone uses hacking to access the data so that even if the data is accessed, it is not readable or understandable.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "Disaster Recovery Planning a plan that describes the continuity of work after a disaster quickly and efficiently is known as a disaster recovery plan at the business level and identify applications that are generally critical to carrying out the association’s activities.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Operational Security in order to protect sensitive data from a variety of threats, the process of allowing administrators to see activity from a hackers perpective is called operational security(OPSEC) or procedural security.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "End User Education is the most important component of computer security.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "The Domain Name System (DNS) translates domain names into IP addressesthat browsers use to load web pages.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Availability Integrity ensures that data is not corrupted or modified by unauthorized personnel. If an authorized individual/system is trying to modify the data and the modification wasn’t successful. Then the data should be reversed back and should not be corrupted.",
-      description:
-        "Availability The data should be available to the user whenever the user requires it. Maintaining of Hardware, upgrading regularly, Data Backups and Recovery, Network Bottlenecks should be taken care of.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "A firewall is a hardware or software-based network security devices that monitors all incoming and outgoing traffic and accepts, denies, or drop that particular traffic based on a defined set of security rules.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "VPN stands for Virtual Private Network that creates a secure, encrypted connection over an insecure network like the internet.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Integrity the data should be available to the user whenever the user requires it.",
-      description:
-        "Integrity ensures that data is not corrupted or modified by unauthorized personnel. If an authorized individual/system is trying to modify the data and the modification wasn’t successful, then the data should be reversed back and should not be corrupted.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "A worm is basically a type of malicious malware that spreads rapidly from one computer to another via email and file sharing.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Transport layer responsible for packet forwarding and providing routing paths for network communication.",
-      description:
-        "Transport Layer: Responsible for end-to-end communication over the network. It splits the data from the above layer and passes it to the Network Layer and then ensures that all the data has successfully reached at the receiver’s end.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "Spyware is basically a type of malicious malware that runs in the background of your computer, steals all your sensitive data and reports this data to remote attackers.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Ransomware is used as malware to extort money from users to ransom by gaining unauthorized access to sensitive user information and demanding payment to delete or return that information from user.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Data Link Layer responsible for transmission od digital data from sender to receiver through the communication media.",
-      description:
-        "Data Link Layer: Handles the movement of data to and from the physical link. It is also responsible for encoding and decoding of data bits.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "A virus is a type of malicious malware that comes as an attachment with a file or a program.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Trojans are malicious non-replicating malware that often degrades computer performance and efficiency.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-    {
-      question:
-        "Network Layer responsible for end to end communication over the network. It splits the data from the above layer and passes it to the Network Layer and then ensure that all data has successfully reached at the receiver’s end.",
-      description:
-        "Network Layer: Responsible for packet forwarding and providing routing paths for network communication.",
-      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
-    },
-    {
-      question:
-        "Active attack is a type of attack in which the attecker modifies or attempts to modify the content of the message.",
-      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
-    },
-  ],
-  [
     {
       levelImg: require(`@/assets/images/ntt-${25}.jpg`),
       description:
@@ -969,6 +796,471 @@ export const gameLevels: INameThatThingLevel[][] = [
         { name: "Dropbox" },
         { name: "Google Meet" },
       ],
+    },
+    {
+      question:
+        "Computer Software serves as the backbone of all digital devices and systems.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "Development of early computers ENIAC and EDSAC in 1940s.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "High-level Languages like Fortan and Cobol develop in !950s.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "Mobile apps and artificial Intelligence was develop in 2010s.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "System Software designed to perform specific tasks for end-users such as web browsing, gaming, word processing, etc.",
+      description:
+        "System software manages hardware and basic system operations and serves as a foundation for application software. It serves as a bridge between hardware and use r and ensures that the system operates efficiently and effectively. This includes Operating Systems, Device Drivers, and Utility Software.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Development Software manages hardware and basic system operations and serves as a foundation for application software.",
+      description:
+        "Development Software includes tools and environments that are used by developers and programmers to create, debug, and maintain software applications. This includes IntegerateDevelopmentnt Environments (Eclipse, Microsoft Visual Studio), Code Editors (Atom, Visual Studio Code), and Version Control Software (Git, GitHub).",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Embedded software is computer software that is designed to operate hardware and perform specific tasks within a larger system. It is optimized for particular functions and integrated into the hardware it controls.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Business Software refers to the applications that assist organizations in managing their operations, improving productivity, and facilitating various business activities",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+  ],
+  //NETWORK
+  [
+    {
+      levelImg: require(`@/assets/images/ntt-${76}.jpg`),
+      description:
+        "Dynamic Host Configuration Protocol is a network protocol used to automate the process of assigning IP addresses and other network configuration parameters to devices (such as computers, smartphones, and printers) on a network.",
+      choices: [
+        { name: "IP Address", isCorrect: true },
+        { name: "MAC Address" },
+        { name: "Subnet Mask" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${77}.jpg`),
+      description:
+        "Dynamic Host Configuration Protocol is a network protocol used to automate the process of assigning IP addresses and other network configuration parameters to devices (such as computers, smartphones, and printers) on a network.",
+      choices: [
+        { name: "DHCP", isCorrect: true },
+        { name: "DNS" },
+        { name: "VPN" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${78}.png`),
+      description:
+        "Wide Area Network network that covers a broad area, connecting devices across cities, countries, or even continents. ",
+      choices: [
+        { name: "WAN", isCorrect: true },
+        { name: "LAN" },
+        { name: "MAN" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${79}.png`),
+      description:
+        "Metropolitan Area Network a network that spans a city or campus, larger than a LAN but smaller than a WAN.",
+      choices: [
+        { name: "MAN", isCorrect: true },
+        { name: "WAN" },
+        { name: "LAN" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${81}.jpg`),
+      description:
+        'A MAC address is a hardware identification number that uniquely identifies each device on a network. Every network interface card, such as an Ethernet card or a Wi-Fi adapter, has a permanent MAC address assigned by its manufacturer some operating systems allow an adapter\'s MAC address to be temporarily changed, or "spoofed," in software.',
+      choices: [
+        { name: "MAC Address", isCorrect: true },
+        { name: "IP Address" },
+        { name: "Subnet Mask" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${82}.png`),
+      description:
+        "A subnet mask is a 32-bit number that separates an IP address into two parts: the network ID and the host ID. It tells devices which portion of the address belongs to the network and which identifies individual devices. By doing this it helps to determine which devices belong to the same local network and which devices reside on different networks.",
+      choices: [
+        { name: "Subnet Mask", isCorrect: true },
+        { name: "MAC Address" },
+        { name: "IP Address" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${83}.png`),
+      description:
+        "Devices are connected in a circular formation. Data travels in one direction, reducing the chance of collisions.",
+      choices: [
+        { name: "Ring Topology", isCorrect: true },
+        { name: "Star Topology" },
+        { name: "Bus Topology" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${84}.png`),
+      description:
+        "Every device is connected to every other device. Highly reliable but expensive.",
+      choices: [
+        { name: "Mesh Topology", isCorrect: true },
+        { name: "Star Topology" },
+        { name: "Bus Topology" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${85}.png`),
+      description:
+        "Combines two or more different topologies for flexibility and efficiency.",
+      choices: [
+        { name: "Hybrid Topology", isCorrect: true },
+        { name: "Tree Topology" },
+        { name: "Ring Topology" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${86}.png`),
+      description:
+        "A hierarchical topology where nodes are connected in a parentchild relationship, resembling a tree structure. It combines elements of both star and bus topologies.",
+      choices: [
+        { name: "Tree Topology", isCorrect: true },
+        { name: "Hybrid Topology" },
+        { name: "Ring Topology" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${87}.png`),
+      description:
+        "Devices connect to a central hub. Reliable but depends on the central hub.",
+      choices: [
+        { name: "Star Topology", isCorrect: true },
+        { name: "Ring Topology" },
+        { name: "Mesh Topology" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${88}.png`),
+      description:
+        "All devices share a single communication line or bus. Easy to install but prone to collisions.",
+      choices: [
+        { name: "Bus Topology", isCorrect: true },
+        { name: "Ring Topology" },
+        { name: "Mesh Topology" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${89}.png`),
+      description:
+        "A router is a network device that connects different networks, directing data packets between them. It operates at the network layer of the OSI model.",
+      choices: [
+        { name: "Routers", isCorrect: true },
+        { name: "VPN" },
+        { name: "WIFI" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${90}.png`),
+      description:
+        "A switch is a network device that connects devices within the same network, allowing them to communicate directly. It operates at the data link layer of the OSI model.",
+      choices: [
+        { name: "Switches", isCorrect: true },
+        { name: "Routers" },
+        { name: "Firewalls" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${91}.png`),
+      description:
+        "A firewall is a network security device that monitors and controls incoming and outgoing network traffic, based on predetermined security rules.",
+      choices: [
+        { name: "Firewalls", isCorrect: true },
+        { name: "Hubs" },
+        { name: "Routers" },
+      ],
+    },
+    {
+      levelImg: require(`@/assets/images/ntt-${92}.png`),
+      description:
+        "A hub is a basic networking device that connects multiple devices in a LAN, broadcasting data to all connected devices. It operates at the physical layer of the OSI model.",
+      choices: [
+        { name: "Hubs", isCorrect: true },
+        { name: "Routers" },
+        { name: "Firewalls" },
+      ],
+    },
+    {
+      question:
+        "Modems: Convert digital data from a computer into a form suitable for transmission over telephone or cable lines.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Access Points: Facilitate wireless communication, allowing devices to connect to a wired network using Wi-Fi.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "TCP Socket (Transmission Control Protocol) Focuses on speed over reliability.",
+      description:
+        "Used for applications that require error-free data transmission, like web pages or email.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Bridge: Connects two or more network segments and operates at the data link layer, reducing overall network traffic.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Repeater: Extends the range of a network by amplifying and retransmitting signals.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Healthcare: Hospitals use networks to manage patient records, connect medical devices, and enable telemedicine.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Socket Creation The server socket is bound to an IP address and port, allowing it to receive ",
+      description:
+        "The server creates a socket that listens for incoming client connections. ",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Smartest Device: Routers are typically considered the smartest among the three. They make intelligent decisions about the best paths for data, ensuring efficient and secure communication between networks.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Intermediate Device: Switches are intermediate devices, facilitating efficient communication within a single network but without the decision-making complexity of routers.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Basic Device: Hubs are considered the most basic among the mentioned devices, broadcasting data without the ability to make intelligent forwarding decisions.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Corporate Networks: Used by businesses to connect employees, share resources, and communicate internally and externally.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "UDP Socket (User Datagram Protocol) Used for applications that require error-free data transmission, like web pages or email.",
+      description:
+        "Commonly used in applications where occasional data loss is acceptablesuch as live streaming or online gaming.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Network Interface Cards (NIC): Hardware that allows a computer to connect to a network.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Education: Schools and universities use networks to facilitate online learning, resource sharing, and communication. ",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "Binding A client connects to the server’s IP and port.",
+      description:
+        "The server socket is bound to an IP address and port, allowing it to receive data.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question: "Connection-Data is transmitted between the client and server.",
+      description: "A client connects to the server’s IP and port.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+  ],
+  //CYBERSEC
+  [
+    {
+      question:
+        "Cybersecurity is the act of protecting computer systems, networks program, and data from digital attacks, unauthorized access, damage or theft.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "CIA stands for Confidentiality information address.",
+      description:
+        "CIA stands for Confidentiality, Integrity, and Availability.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Phishing is the fraudulent practice of sending spam emails by impersonating legitimate sources.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Social engineering attacks can take many forms and can be carried out anywhere human collaboration is required.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question: "VPN stands for Virtual Process Network.",
+      description: "VPN stands for Virtual Private Network.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question: "ARP stands for Address Restart Protocol.",
+      description:
+        "Address Resolution Protocol (ARP) is a protocol for mapping an Internet Protocol address (IP address) to a physical machine address that is recognized in the local network.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Ransomware is documented encryption programing that uses special cryptographic calculations to encrypt records in a targeted framework.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Cryptocurrency Hijacking as a digital currencies and mining become more popular so do cybercriminals. They have found an evil advantage in crytocurrency mining, which involves complex calculations to mine virtual currencies such as Bitcoin, Ethereum, Monero, and Litecoin.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Bonet attacks often target large organization and entities that obtain vast amounts of information. This attack allows programmers to control countless devices for cunning intent.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Application security is the most important core component of cyber security, adding security highlights to applications during the improvement period to defend against cyber attacks.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Physical Layer handles the movement of data to and from the physical link. It is also responsible for encoding and decoding of data bits.",
+      description:
+        "Physical Layer: Responsible for transmission of digital data from sender to receiver through the communication media.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Information security is a component of cyber security that describes how information is protect agaist unauthorized access, use, disclosure, disruption, alteration, or deletion.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Network security is the security provided to a network from unauthorized access and threats. It is the network administrator’s reponsibility to take precautions to protect the network from potential security threats. Network security is another element of IT security. The method of defending and preventing unauthorized access to computer networks.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Confidentiality maintaining of Hardware, upgrading regularly Data Backups and Recovery, Network Bottlenecks should be taken care of.",
+      description:
+        "Confidentiality the information should be accessible and readable only to authorized personnel. It should not be accessible by unauthorized personnel. The information should be strongly encrypted just in case someone uses hacking to access the data so that even if the data is accessed, it is not readable or understandable.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Disaster Recovery Planning a plan that describes the continuity of work after a disaster quickly and efficiently is known as a disaster recovery plan at the business level and identify applications that are generally critical to carrying out the association’s activities.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Operational Security in order to protect sensitive data from a variety of threats, the process of allowing administrators to see activity from a hackers perpective is called operational security(OPSEC) or procedural security.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "End User Education is the most important component of computer security.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "The Domain Name System (DNS) translates domain names into IP addressesthat browsers use to load web pages.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Availability Integrity ensures that data is not corrupted or modified by unauthorized personnel. If an authorized individual/system is trying to modify the data and the modification wasn’t successful. Then the data should be reversed back and should not be corrupted.",
+      description:
+        "Availability The data should be available to the user whenever the user requires it. Maintaining of Hardware, upgrading regularly, Data Backups and Recovery, Network Bottlenecks should be taken care of.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "A firewall is a hardware or software-based network security devices that monitors all incoming and outgoing traffic and accepts, denies, or drop that particular traffic based on a defined set of security rules.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "VPN stands for Virtual Private Network that creates a secure, encrypted connection over an insecure network like the internet.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Integrity the data should be available to the user whenever the user requires it.",
+      description:
+        "Integrity ensures that data is not corrupted or modified by unauthorized personnel. If an authorized individual/system is trying to modify the data and the modification wasn’t successful, then the data should be reversed back and should not be corrupted.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "A worm is basically a type of malicious malware that spreads rapidly from one computer to another via email and file sharing.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Transport layer responsible for packet forwarding and providing routing paths for network communication.",
+      description:
+        "Transport Layer: Responsible for end-to-end communication over the network. It splits the data from the above layer and passes it to the Network Layer and then ensures that all the data has successfully reached at the receiver’s end.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Spyware is basically a type of malicious malware that runs in the background of your computer, steals all your sensitive data and reports this data to remote attackers.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Ransomware is used as malware to extort money from users to ransom by gaining unauthorized access to sensitive user information and demanding payment to delete or return that information from user.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Data Link Layer responsible for transmission od digital data from sender to receiver through the communication media.",
+      description:
+        "Data Link Layer: Handles the movement of data to and from the physical link. It is also responsible for encoding and decoding of data bits.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "A virus is a type of malicious malware that comes as an attachment with a file or a program.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Trojans are malicious non-replicating malware that often degrades computer performance and efficiency.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
+    },
+    {
+      question:
+        "Network Layer responsible for end to end communication over the network. It splits the data from the above layer and passes it to the Network Layer and then ensure that all data has successfully reached at the receiver’s end.",
+      description:
+        "Network Layer: Responsible for packet forwarding and providing routing paths for network communication.",
+      choices: [{ name: "TRUE" }, { name: "FALSE", isCorrect: true }],
+    },
+    {
+      question:
+        "Active attack is a type of attack in which the attecker modifies or attempts to modify the content of the message.",
+      choices: [{ name: "TRUE", isCorrect: true }, { name: "FALSE" }],
     },
   ],
 ];

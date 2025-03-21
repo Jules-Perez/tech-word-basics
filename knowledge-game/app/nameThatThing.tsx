@@ -357,10 +357,12 @@ export default function NameThatThing() {
       });
   }
 
-  const [ResultsData, setResultsData] = useState<ILevelCompleteProps>({});
+  const [ResultsData, setResultsData] = useState<ILevelCompleteProps>({
+    categoryLevel: 0,
+  });
 
   const getResultsData = useMemo(() => {
-    let results: ILevelCompleteProps = {};
+    let results: ILevelCompleteProps = { categoryLevel: 0 };
     const FAST_ANSWER_DUR = 15;
     const FAST_ANSWER_REWARD = 25;
     const ANSWER_REWARD = 15;
