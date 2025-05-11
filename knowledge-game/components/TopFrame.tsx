@@ -129,7 +129,13 @@ export default function TopFrame(props: IProps) {
               PROFILE
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              handleSoundPress();
+              navigate("techtionary");
+            }}
+          >
             <Text style={styles.buttonText} selectionColor={"white"}>
               TECHTIONARY
             </Text>

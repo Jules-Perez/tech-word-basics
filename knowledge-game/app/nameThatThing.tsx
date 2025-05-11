@@ -454,6 +454,20 @@ export default function NameThatThing() {
             <View></View>
           ) : (
             <View>
+              <Text
+                style={{
+                  fontSize: 32,
+                  color: "#FCDEC7",
+                  fontWeight: "400",
+                  marginBottom: 10,
+                  textAlign: "center",
+                  textShadowOffset: { width: 1, height: 1 },
+                  textShadowRadius: 10,
+                  textShadowColor: "black",
+                }}
+              >
+                {LevelData[Level]?.gameType}
+              </Text>
               <View style={styles.imgContainer}>
                 <View>{renderLevelImage(LevelData[Level])}</View>
               </View>

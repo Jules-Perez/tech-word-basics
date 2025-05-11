@@ -22,6 +22,7 @@ export type RootStackParamList = {
   studentDashboard: undefined;
   studentStatistics: undefined;
   statistics: undefined;
+  techtionary: undefined;
   levelSelect: {
     category_id?: number;
   };
@@ -54,6 +55,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="signup" options={{ headerShown: false }} />
+        <Stack.Screen name="techtionary" options={{ headerShown: false }} />
         <Stack.Screen
           name="instructorDashboard"
           options={{ headerShown: false }}
