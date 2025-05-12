@@ -4,6 +4,7 @@ import { Text } from "react-native";
 import { NavigationProps } from "@/app/_layout";
 import { useContext, useEffect, useState } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
 
 const settingsImg = require("@/assets/images/settings.png");
 const backImg = require("@/assets/images/left.png");
@@ -30,10 +31,6 @@ export default function TopNav(props: IProps) {
   const [IsSoundMuted, setIsSoundMuted] = useState(false);
 
   useEffect(() => {
-    if (!(global as any).theme) {
-      (global as any).theme = new Audio(require("@/assets/sounds/theme.wav"));
-    }
-
     useAsyncStorage("MuteMusic")
       .getItem()
       .then((e) => {
@@ -53,13 +50,36 @@ export default function TopNav(props: IProps) {
       });
   }, []);
 
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [themeSound, setThemeSound] = useState<Audio.Sound | null>(null);
+
+  const playThemeLoop = async () => {
+    if ((global as any).theme) {
+      return;
+    }
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/theme.wav")
+    );
+    (global as any).theme = sound;
+    setThemeSound(sound);
+    await sound.setIsLoopingAsync(true);
+    await sound.playAsync();
+  };
+
+  const stopTheme = async () => {
+    if ((global as any).theme) {
+      await (global as any).theme.stopAsync();
+      await (global as any).theme.unloadAsync();
+      (global as any).theme = null;
+    }
+  };
+
   const playThemeMusic = () => {
-    (global as any).theme.loop = true;
-    ((global as any).theme as HTMLAudioElement).play();
+    playThemeLoop();
   };
 
   const stopThemeMusic = () => {
-    (global as any).theme.pause();
+    stopTheme();
   };
 
   const onMuteMusicPressed = (mute: boolean) => {
@@ -73,15 +93,20 @@ export default function TopNav(props: IProps) {
 
   const onMuteSoundPressed = (mute: boolean) => {
     (global as any).soundsMuted = mute;
+    setIsSoundMuted(mute);
   };
 
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-
-  const handlePress = (onPress?: () => void) => {
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
-
+  };
+  const handlePress = (onPress?: () => void) => {
+    handleSoundPress();
     if (onPress) {
       onPress();
     }

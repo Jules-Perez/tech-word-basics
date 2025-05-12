@@ -24,22 +24,20 @@ export default function StatboxGradient(props: IProps) {
   };
 
   return (
-    <View>
-      <LinearGradient
-        style={styles.statbox2}
-        start={{ x: 0, y: 1 }}
-        colors={renderColor()}
-      >
-        <View style={{ top: 15 }}>
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
-            {!props.value || isNaN(props.value) ? 0 : props.value}
-          </Text>
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 12 }}>
-            {props.label}
-          </Text>
-        </View>
-      </LinearGradient>
-    </View>
+    <LinearGradient
+      style={styles.statbox2}
+      start={{ x: 0, y: 1 }}
+      colors={renderColor()}
+    >
+      <View style={{ top: 15 }}>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
+          {!props.value || isNaN(props.value) ? 0 : props.value}
+        </Text>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 12 }}>
+          {props.label}
+        </Text>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     height: 95,
-    minWidth: 200,
+    flex: 1,
     alignItems: "baseline",
   },
 });

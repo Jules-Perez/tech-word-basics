@@ -1,3 +1,5 @@
+import { Audio, AVPlaybackSource } from "expo-av";
+import { useState } from "react";
 import { Image, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 
 interface IProps {
@@ -8,15 +10,22 @@ interface IProps {
   children?: string | JSX.Element | JSX.Element[];
 }
 export function ChoiceBox(props: IProps) {
-  let rightSound = new Audio(require("@/assets/sounds/right.wav"));
-  let wrongSound = new Audio(require("@/assets/sounds/wrong.wav"));
-
+  let rightSound = require("@/assets/sounds/right.wav");
+  let wrongSound = require("@/assets/sounds/wrong.wav");
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async (soundPath: AVPlaybackSource) => {
+    const { sound } = await Audio.Sound.createAsync(soundPath);
+    if (!(global as any).soundsMuted) {
+      setSound(sound);
+      await sound.playAsync();
+    }
+  };
   const handlePress = () => {
     if (!(global as any).soundsMuted) {
       if (props.isCorrect) {
-        rightSound.play();
+        handleSoundPress(rightSound);
       } else {
-        wrongSound.play();
+        handleSoundPress(wrongSound);
       }
     }
 

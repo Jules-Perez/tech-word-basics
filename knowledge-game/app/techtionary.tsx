@@ -17,6 +17,7 @@ import { View } from "react-native";
 import { NavigationProps } from "./_layout";
 import { useNavigation } from "expo-router";
 import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
+import { Audio } from "expo-av";
 
 export default function Techtionary() {
   const { navigate } = useNavigation<NavigationProps>();
@@ -47,10 +48,14 @@ export default function Techtionary() {
         }
       });
   };
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
 
@@ -96,9 +101,7 @@ export default function Techtionary() {
         <View style={styles.dataContainer}>
           {img ? <Image style={styles.img} source={img}></Image> : null}
           <View style={{ flex: 1, gap: 4 }}>
-            <View
-              style={{ flexDirection: "row", gap: 8, alignItems: "center" }}
-            >
+            <View style={{ flexDirection: "column", gap: -4 }}>
               <Text style={{ color: "#564849" }}>Correct Answer: </Text>
               <Text
                 style={{ fontWeight: "bold", color: "#564849", fontSize: 16 }}
@@ -126,6 +129,7 @@ export default function Techtionary() {
           fontWeight: "bold",
           fontSize: 32,
           color: "white",
+          marginTop: 32,
         }}
       >
         Techtionary
@@ -139,7 +143,7 @@ export default function Techtionary() {
       >
         This is where you can review your mistakes
       </Text>
-      <View style={styles.categoryContainer}>
+      <ScrollView style={styles.categoryContainer} horizontal>
         <TouchableOpacity
           onPress={() => {
             setSelectedCategory(0), handleSoundPress();
@@ -252,7 +256,7 @@ export default function Techtionary() {
             Cybersecurity Citadel
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
       <ScrollView
         style={{
           maxHeight: useWindowDimensions().height - 260,
@@ -271,26 +275,6 @@ export default function Techtionary() {
             gameLevel.levelImg
           );
         })}
-        <View style={styles.container}>
-          <Text style={styles.gameType}>
-            Question 1. ({gameLevels[0][0].gameType.toString()})
-          </Text>
-          <View style={styles.dataContainer}>
-            <Image
-              style={styles.img}
-              source={gameLevels[0][0].levelImg}
-            ></Image>
-            <View style={{ flex: 1 }}>
-              <Text>
-                {
-                  gameLevels[0][0].choices.find((c) => c.isCorrect ?? false)
-                    ?.name
-                }
-              </Text>
-              <Text>{gameLevels[0][0].description}</Text>
-            </View>
-          </View>
-        </View>
       </ScrollView>
     </ThemedView>
   );
@@ -321,8 +305,7 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 32,
+    marginVertical: 32,
   },
   container: {
     backgroundColor: "#FCDEC7",

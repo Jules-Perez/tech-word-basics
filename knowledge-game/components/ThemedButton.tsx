@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Image,
   ImageURISource,
@@ -9,26 +10,31 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { Audio } from "expo-av";
 
 interface IProps {
   logo?: ImageURISource;
   onPress?: () => void;
   isMuted?: boolean;
-  overrideSound?: HTMLAudioElement;
+  overrideSound?: Audio.Sound;
   children?: string | JSX.Element | JSX.Element[];
   style?: StyleProp<ViewStyle>;
 }
 
 export function ThemedButton(props: IProps) {
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
+  const [Sound, setSound] = useState<Audio.Sound | undefined>();
 
-  const handlePress = () => {
+  const handlePress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
       if (props.overrideSound) {
-        props.overrideSound.play();
+        setSound(props.overrideSound);
       } else {
-        defaultClickSound.play();
+        setSound(sound);
       }
+      await sound.playAsync();
     }
 
     if (props?.onPress) {

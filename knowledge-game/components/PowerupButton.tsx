@@ -1,3 +1,5 @@
+import { Audio } from "expo-av";
+import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface IProps {
@@ -7,11 +9,19 @@ interface IProps {
 }
 
 export function PowerupButton(props: IProps) {
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
+    if (!(global as any).soundsMuted) {
+      setSound(sound);
+      await sound.playAsync();
+    }
+  };
   const handlePress = () => {
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      handleSoundPress();
     }
 
     if (props?.onPress) {

@@ -5,6 +5,7 @@ import { IUser, IUserKeys, useApi, UserType } from "@/hooks/useApi";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Audio } from "expo-av";
 
 export default function signup() {
   const [FormInput, setFormInput] = useState<IUser>({
@@ -35,10 +36,15 @@ export default function signup() {
     useApi().signupUser(FormInput);
     alert(`User ${FormInput.name} added for confirmation`);
   };
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
   return (

@@ -108,7 +108,7 @@ function PowerupUseModal(props: IPowerupUseModalProps) {
               textAlign: "center",
             }}
           >
-            Insufficient Coins. <br></br>
+            Insufficient Coins.
             {props.powerupUse ?? "Powerup name"} (
             <Image
               style={{ width: 25, height: 25, marginBottom: -5 }}

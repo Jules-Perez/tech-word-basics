@@ -1,4 +1,5 @@
 import { NavigationProps } from "@/app/_layout";
+import { Audio } from "expo-av";
 import { useNavigation } from "expo-router";
 import { useRef, useState } from "react";
 import {
@@ -73,10 +74,14 @@ export default function TopFrame(props: IProps) {
       useNativeDriver: true,
     }).start();
   };
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
   const handleDropdownBtn = () => {

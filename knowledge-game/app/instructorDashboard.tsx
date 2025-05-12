@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
 import { NavigationProps } from "./_layout";
@@ -22,10 +23,10 @@ import { EditProfileModal } from "@/components/EditProfileModal";
 import StatboxGradient from "@/components/StatBoxGradient";
 import { ProfileImages } from "@/constants/ProfileImages";
 import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
+import { Audio } from "expo-av";
 
 const imgPlaceholder = require("@/assets/images/user.png");
 const imgEdit = require("@/assets/images/edit.png");
-const windowHeight = Dimensions.get("window").height;
 
 interface IUserListProps {
   img?: string;
@@ -78,10 +79,14 @@ export default function InstructorDashboard(props: any) {
   const [ShowEditProfile, setShowEditProfile] = useState(false);
   const [ShowSettings, setShowSettings] = useState(false);
 
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
 
@@ -179,6 +184,7 @@ export default function InstructorDashboard(props: any) {
           visible={true}
         />
       ) : null}
+
       <BottomNavigation>
         <BottomNavButton logo={"profile"} />
         <BottomNavButton logo={"leaderboard"} />
@@ -187,7 +193,14 @@ export default function InstructorDashboard(props: any) {
           onPress={() => navigate("statistics")}
         />
       </BottomNavigation>
-      <View style={{ ...styles.main, top: 50, maxHeight: windowHeight - 50 }}>
+
+      <View
+        style={{
+          ...styles.main,
+          top: 50,
+          maxHeight: useWindowDimensions().height - 50,
+        }}
+      >
         <View style={styles.dashboardContainer}>
           <Image
             style={styles.profileImg}
@@ -208,7 +221,7 @@ export default function InstructorDashboard(props: any) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.userStatsContainer}>
+        <View style={[styles.userStatsContainer]}>
           <StatboxGradient value={StudentCount} color="blue" label="Students" />
           <StatboxGradient value={5} color="green" label="Sections" />
         </View>
@@ -278,6 +291,7 @@ const styles = StyleSheet.create({
   userStatsContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    display: "flex",
   },
   statContainer: {
     flexBasis: "40%",

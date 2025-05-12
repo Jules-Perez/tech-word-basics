@@ -1,3 +1,5 @@
+import { Audio } from "expo-av";
+import { useState } from "react";
 import {
   Dimensions,
   Image,
@@ -6,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 const windowHeight = Dimensions.get("window").height;
 
 const imgProfile = require("@/assets/images/navProfile.png");
@@ -18,11 +21,19 @@ interface IButtonNavProps {
   onPress?: () => void;
 }
 export function BottomNavButton(props: IButtonNavProps) {
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
+    if (!(global as any).soundsMuted) {
+      setSound(sound);
+      await sound.playAsync();
+    }
+  };
   const handlePress = () => {
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      handleSoundPress();
     }
 
     if (props?.onPress) {
@@ -55,7 +66,7 @@ interface IProps {
 
 export default function BottomNavigation(props: IProps) {
   return (
-    <View style={{ ...styles.main, top: windowHeight - 75, zIndex: 100 }}>
+    <View style={{ top: windowHeight - 75, ...styles.main, zIndex: 100 }}>
       <View style={styles.container}></View>
       <View style={styles.buttonContainer}>{props.children}</View>
     </View>

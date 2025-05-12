@@ -16,6 +16,7 @@ import { NavigationProps } from "./_layout";
 import { useLoginSession } from "@/hooks/useLoginSession";
 import { IAnswerLog, IUser, useApi } from "@/hooks/useApi";
 import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
+import { Audio } from "expo-av";
 
 const trail1 = require(`@/assets/images/trail1_active.png`);
 const trail1_inactive = require(`@/assets/images/trail1_inactive.png`);
@@ -34,10 +35,14 @@ export default function LevelSelect() {
   const [LoggedUser, setLoggedUser] = useState<IUser>();
   const [AnswerLogs, setAnswerLogs] = useState<IAnswerLog[]>([]);
 
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
 

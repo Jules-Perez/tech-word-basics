@@ -13,6 +13,7 @@ import { useNavigation } from "expo-router";
 import { NavigationProps } from "@/app/_layout";
 import { useEffect, useState } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
 
 interface IProps {
   loggedUserId?: number;
@@ -48,11 +49,19 @@ function SettingButtons(props: ISettingProps) {
     }
   };
 
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-
+  const [soundClip, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
+    if (!(global as any).soundsMuted) {
+      setSound(soundClip);
+      await sound.playAsync();
+    }
+  };
   const handlePress = () => {
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      handleSoundPress();
     }
 
     if (props?.onPress) {

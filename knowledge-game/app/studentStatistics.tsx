@@ -11,6 +11,7 @@ import { NavigationProps } from "./_layout";
 import { EditProfileModal } from "@/components/EditProfileModal";
 import { ProfileImages } from "@/constants/ProfileImages";
 import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
+import { Audio } from "expo-av";
 
 const imgEdit = require("@/assets/images/edit.png");
 const imgPlaceholder = require("@/assets/images/user.png");
@@ -37,10 +38,14 @@ export default function StudentStatistics() {
         }
       });
   };
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
 

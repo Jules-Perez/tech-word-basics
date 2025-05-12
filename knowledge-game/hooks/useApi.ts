@@ -1,9 +1,27 @@
 import axios from "axios";
+import { useEffect } from "react";
 
-const api = axios.create({
-  //baseURL: "http://:3000",
-  baseURL: "http://localhost:3000",
+if (!(global as any).server) {
+  (global as any).server = "192.168.254.150";
+}
+
+let api = axios.create({
+  baseURL: "192.168.254.150",
+  //baseURL: "http://localhost:3000",
 });
+
+export function changeApi(str: string) {
+  if (str == null) return;
+  (global as any).server = str;
+  api = axios.create({
+    baseURL: `http://${(global as any).server}:3000`,
+    //baseURL: "http://localhost:3000",
+  });
+}
+
+export function getServerApi() {
+  return (global as any).server;
+}
 
 export type UserType = "instructor" | "student" | null;
 
@@ -183,5 +201,7 @@ export function useApi() {
     getUserTransaction,
     rewardUser,
     purchase,
+    changeApi,
+    getServerApi,
   };
 }

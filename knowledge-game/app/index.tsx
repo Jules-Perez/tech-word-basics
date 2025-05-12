@@ -1,7 +1,7 @@
 import { ThemedButton } from "@/components/ThemedButton";
 import ThemedInput from "@/components/ThemedInput";
 import { ThemedView } from "@/components/ThemedView";
-import { IUser, useApi } from "@/hooks/useApi";
+import { changeApi, IUser, useApi } from "@/hooks/useApi";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { Link, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { NavigationProps } from "./_layout";
 import LineDivider from "@/components/LineDivider";
+import { BaseModal } from "@/components/BaseModal";
 
 const userLogo = require("@/assets/images/user.png");
 const mail = require("@/assets/images/mail.png");
@@ -25,8 +26,11 @@ export default function login() {
 
   const [LoginEmail, setLoginEmail] = useState("");
   const [LoginPass, setLoginPass] = useState("");
+  const [ServerIp, setServerIp] = useState("");
+  const [showServerModal, setshowServerModal] = useState(false);
   useEffect(() => {
     useAsyncStorage("loggedUser").removeItem();
+    setServerIp(useApi().getServerApi());
   }, []);
 
   const handleLogin = () => {
@@ -53,6 +57,36 @@ export default function login() {
 
   return (
     <ThemedView>
+      <BaseModal
+        visible={showServerModal}
+        onClose={() => setshowServerModal(false)}
+      >
+        <View style={{ padding: 32 }}>
+          <Text
+            style={{ color: "white", textAlign: "center", marginBottom: 25 }}
+          >
+            Server IP
+          </Text>
+          <ThemedInput
+            label="Server Ip"
+            value={ServerIp}
+            onChangeText={(t) => setServerIp(t)}
+          />
+          <View style={{ marginTop: 25 }}>
+            <ThemedButton
+              onPress={() => {
+                useApi().changeApi(ServerIp);
+                setshowServerModal(false);
+              }}
+            >
+              Change
+            </ThemedButton>
+            <ThemedButton onPress={() => setshowServerModal(false)}>
+              Cancel
+            </ThemedButton>
+          </View>
+        </View>
+      </BaseModal>
       <View style={styles.logoContainer}>
         <Image
           source={require("@/assets/images/logo.png")}
@@ -76,10 +110,6 @@ export default function login() {
           />
         </View>
 
-        <Link href={"/"} style={{ color: "white" }}>
-          Forgot password?
-        </Link>
-
         <ThemedButton onPress={() => handleLogin()} style={{ width: 250 }}>
           Login
         </ThemedButton>
@@ -89,6 +119,13 @@ export default function login() {
             Create an account.
           </Link>
         </Text>
+        <Link
+          href={"/"}
+          style={styles.signupLink}
+          onPress={() => setshowServerModal(true)}
+        >
+          <Text style={styles.signupText}>Configure Server</Text>
+        </Link>
       </View>
     </ThemedView>
   );

@@ -23,7 +23,7 @@ export function BaseModal(props: IProps) {
         {
           zIndex: 999,
           position: "absolute",
-          width: "100%",
+          width: useWindowDimensions().width,
           display: props.visible ? "flex" : "none",
           alignItems: "center",
           top: 0,

@@ -32,6 +32,7 @@ export default function (props: IProps) {
         onChangeText={props.onChangeText}
         style={styles.input}
         placeholder={!props.isPassword ? props.placeholder : ""}
+        defaultValue={props.value}
       ></TextInput>
     </View>
   );
@@ -54,17 +55,17 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   labelContainer: {
-    flexBasis: "30%",
+    flexBasis: "40%",
     fontSize: 12,
     color: "white",
     fontWeight: "bold",
     overflow: "hidden",
-    paddingLeft: 2,
+    paddingLeft: 22,
     paddingRight: 35,
   },
   input: {
     fontFamily: "Tahoma",
-    flexBasis: "85%",
+    flexBasis: "65%",
     backgroundColor: "#FCDEC7",
     borderRadius: 45,
     borderColor: "white",

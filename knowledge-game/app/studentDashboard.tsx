@@ -17,6 +17,7 @@ import { useLoginSession } from "@/hooks/useLoginSession";
 import { IAnswerLog, IUser, useApi } from "@/hooks/useApi";
 import { gameLevels } from "@/constants/Levels";
 import TopNav, { TopNavOptionsEnum } from "@/components/TopNav";
+import { Audio } from "expo-av";
 
 const hardwareHavenImg = require("@/assets/images/hardwareHaven.png");
 const networkNexusImg = require("@/assets/images/networkNexus.png");
@@ -79,11 +80,19 @@ const ArenaNav = memo((props: INavProp) => {
     return design;
   }, []);
 
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
+    if (!(global as any).soundsMuted) {
+      setSound(sound);
+      await sound.playAsync();
+    }
+  };
   const handlePress = () => {
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      handleSoundPress();
     }
 
     if (props?.onPress) {

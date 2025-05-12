@@ -224,7 +224,7 @@ export function GameArenaPercentageView(props: {
           color: "white",
           fontWeight: "bold",
           fontSize: 18,
-          flexBasis: "70%",
+          flexBasis: "50%",
         }}
       >
         {props.text}

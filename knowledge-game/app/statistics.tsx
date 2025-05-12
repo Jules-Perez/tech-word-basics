@@ -12,7 +12,12 @@ import { ThemedView } from "@/components/ThemedView";
 import { IUser, useApi } from "@/hooks/useApi";
 import { useNavigation } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { NavigationProps } from "./_layout";
 
 export default function statistics() {
@@ -34,6 +39,20 @@ export default function statistics() {
 
   return (
     <ThemedView>
+      <ScrollView style={{ height: useWindowDimensions().height }}>
+        <View style={styles.searchboxContainer}>
+          <StudentSearchBox
+            onSubmit={handleOnSubmit}
+            onTextChange={(t) => setSearchValue(t)}
+          />
+        </View>
+        <View style={{ marginHorizontal: 25, marginBottom: 25 }}>
+          <StatisticsResultProfile user={SearchResult} />
+        </View>
+        <StatisticsResult user={SearchResult} />
+        <View style={{ marginBottom: 100 }}></View>
+      </ScrollView>
+
       <BottomNavigation>
         <BottomNavButton
           logo={"profile"}
@@ -42,16 +61,6 @@ export default function statistics() {
         <BottomNavButton logo={"leaderboard"} />
         <BottomNavButton logo={"statistics"} />
       </BottomNavigation>
-      <View style={styles.searchboxContainer}>
-        <StudentSearchBox
-          onSubmit={handleOnSubmit}
-          onTextChange={(t) => setSearchValue(t)}
-        />
-      </View>
-      <View style={{ marginHorizontal: 25, marginBottom: 25 }}>
-        <StatisticsResultProfile user={SearchResult} />
-      </View>
-      <StatisticsResult user={SearchResult} />
     </ThemedView>
   );
 }

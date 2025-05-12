@@ -14,6 +14,7 @@ import LineDivider from "./LineDivider";
 import { useCallback, useEffect, useState } from "react";
 import { ProfileImages } from "@/constants/ProfileImages";
 import { IUser } from "@/hooks/useApi";
+import { Audio } from "expo-av";
 
 const banner = require("@/assets/images/banner.png");
 const userImgPlaceholder = require("@/assets/images/user.png");
@@ -60,15 +61,20 @@ export function EditProfileModal(props: IProps) {
     }
     if (props?.onEdit) props.onEdit(EditUser);
   };
-  let defaultClickSound = new Audio(require("@/assets/sounds/click.wav"));
-  const handleSoundPress = () => {
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const handleSoundPress = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/sounds/click.wav")
+    );
     if (!(global as any).soundsMuted) {
-      defaultClickSound.play();
+      setSound(sound);
+      await sound.playAsync();
     }
   };
   const renderProfileImages = useCallback((_userImg: number) => {
     return ProfileImages.map((img, i) => (
       <TouchableOpacity
+        key={i}
         style={{ borderRadius: 65, overflow: "hidden" }}
         onPress={() => {
           handleSoundPress();
@@ -225,7 +231,7 @@ export function EditProfileModal(props: IProps) {
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: "#FCDEC7",
-    width: "65%",
+    width: "85%",
     top: 100,
     borderRadius: 25,
     position: "absolute",
