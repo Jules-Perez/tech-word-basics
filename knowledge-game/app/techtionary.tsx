@@ -257,16 +257,12 @@ export default function Techtionary() {
           </Text>
         </TouchableOpacity>
       </ScrollView>
-      <ScrollView
-        style={{
-          maxHeight: useWindowDimensions().height - 260,
-        }}
-      >
+      <View>
         {IncorrectLevels[SelectedCategory].map((e, i) => {
           const gameLevel = gameLevels[SelectedCategory][e];
           if (!gameLevel) return null;
           return renderData(
-            i + 1,
+            e + 1,
             gameLevel.gameType,
             gameLevel.choices.find((c) => c.isCorrect ?? false)?.name ??
               "Undefined",
@@ -275,7 +271,7 @@ export default function Techtionary() {
             gameLevel.levelImg
           );
         })}
-      </ScrollView>
+      </View>
     </ThemedView>
   );
 }
@@ -306,6 +302,8 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: "row",
     marginVertical: 32,
+    zIndex: -1,
+    maxHeight: 120,
   },
   container: {
     backgroundColor: "#FCDEC7",
